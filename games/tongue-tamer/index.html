@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -210,7 +210,7 @@
     </div>
 
     <div class="score-bar">
-      <span class="score" style="color:var(--tongue-color);">점수: <strong id="score">0</strong></span>
+      <span class="score" style="color:var(--tongue-color);">Score: <strong id="score">0</strong></span>
       <span class="progress" id="progress">1 / 15</span>
     </div>
 
@@ -223,8 +223,8 @@
 
       <div class="game-zone">
         <div class="zone-labels">
-          <span class="zone-label bad">🚫 나쁜 말</span>
-          <span class="zone-label good">💚 좋은 말</span>
+          <span class="zone-label bad">🚫 Bad Words</span>
+          <span class="zone-label good">💚 Good Words</span>
         </div>
 
         <div class="word-card" id="word-card">
@@ -233,8 +233,8 @@
         </div>
 
         <div class="swipe-hint">
-          <span>← 나쁜 말</span>
-          <span>좋은 말 →</span>
+          <span>← Bad Words</span>
+          <span>Good Words →</span>
         </div>
 
         <div class="btn-row">
@@ -251,20 +251,20 @@
         <div class="result-score" id="result-score"></div>
         <p class="result-msg" id="result-msg"></p>
         <div class="btn-group">
-          <button class="retry-btn" onclick="startGame()">다시 도전! 🔄</button>
-          <a href="../../index.html" class="home-btn">홈으로 돌아가기 🏠</a>
+          <button class="retry-btn" onclick="startGame()">Try Again! 🔄</button>
+          <a href="../../index.html" class="home-btn">Back to Home 🏠</a>
         </div>
       </div>
 
       <div class="quiz-card" style="margin-top:16px; text-align:left;">
-        <h3 style="margin-bottom:12px;">📖 오늘의 말씀</h3>
+        <h3 style="margin-bottom:12px;">📖 Today's Verse</h3>
         <p style="font-size:0.9rem; line-height:1.7; color:#555;">
-          "입을 지키는 자는 자기의 생명을 보전하나 입술을 크게 벌리는 자에게는 멸망이 오느니라"
-          <br><strong>— 잠언 13:3</strong>
+          "Those who guard their lips preserve their lives, but those who speak rashly will come to ruin"
+          <br><strong>— Proverbs 13:3</strong>
         </p>
         <p style="font-size:0.85rem; line-height:1.7; color:#555; margin-top:12px;">
-          "선한 사람은 마음에 쌓은 선에서 선을 내고 악한 사람은 그 쌓은 악에서 악을 내나니 이는 마음에 가득한 것을 입으로 말함이니라"
-          <br><strong>— 마태복음 12:34-35</strong>
+          "A good man brings good things out of the good stored up in his heart, and an evil man brings evil things out of the evil stored up in his heart. For the mouth speaks what the heart is full of."
+          <br><strong>— Matthew 12:34-35</strong>
         </p>
       </div>
     </div>
@@ -280,33 +280,33 @@
 
   <script>
     const allWords = [
-      // 좋은 말 (good)
-      { text: "고마워!", type: "good", feedback: "감사하는 마음을 표현하는 좋은 말이에요!", verse: "골로새서 3:15" },
-      { text: "괜찮아, 힘내!", type: "good", feedback: "힘든 친구를 위로하는 따뜻한 말이에요.", verse: "데살로니가전서 5:11" },
-      { text: "같이 하자!", type: "good", feedback: "함께하자는 말은 사랑의 표현이에요.", verse: "전도서 4:9" },
-      { text: "잘했어!", type: "good", feedback: "칭찬은 사람을 세워주는 좋은 말이에요.", verse: "잠언 16:24" },
-      { text: "미안해, 내가 잘못했어", type: "good", feedback: "잘못을 인정하는 용기 있는 말이에요.", verse: "야고보서 5:16" },
-      { text: "용서해줄게", type: "good", feedback: "용서는 하나님이 기뻐하시는 말이에요.", verse: "에베소서 4:32" },
-      { text: "하나님 감사합니다", type: "good", feedback: "하나님께 감사하는 말은 가장 아름다운 말이에요.", verse: "시편 107:1" },
-      { text: "널 위해 기도할게", type: "good", feedback: "기도의 약속은 가장 큰 선물이에요.", verse: "야고보서 5:16" },
-      { text: "먼저 해도 돼!", type: "good", feedback: "양보하는 말은 겸손의 표현이에요.", verse: "빌립보서 2:3" },
-      { text: "너 정말 잘하는구나!", type: "good", feedback: "진심 어린 칭찬은 사람을 세워줘요.", verse: "잠언 12:25" },
-      { text: "도와줄까?", type: "good", feedback: "도움을 제안하는 것은 사랑의 실천이에요.", verse: "갈라디아서 6:2" },
-      { text: "사랑해!", type: "good", feedback: "사랑을 표현하는 가장 좋은 말이에요.", verse: "요한일서 4:7" },
+      // Good words
+      { text: "Thank you!", type: "good", feedback: "Expressing gratitude is a wonderful thing!", verse: "Colossians 3:15" },
+      { text: "It's okay, cheer up!", type: "good", feedback: "Comforting a struggling friend is a warm thing to say.", verse: "1 Thessalonians 5:11" },
+      { text: "Let's do it together!", type: "good", feedback: "Inviting others shows love.", verse: "Ecclesiastes 4:9" },
+      { text: "Great job!", type: "good", feedback: "Praise builds people up.", verse: "Proverbs 16:24" },
+      { text: "I'm sorry, I was wrong", type: "good", feedback: "Admitting your mistakes takes courage.", verse: "James 5:16" },
+      { text: "I forgive you", type: "good", feedback: "Forgiveness pleases God.", verse: "Ephesians 4:32" },
+      { text: "Thank you, God", type: "good", feedback: "Thanking God is the most beautiful thing to say.", verse: "Psalm 107:1" },
+      { text: "I'll pray for you", type: "good", feedback: "A promise to pray is the greatest gift.", verse: "James 5:16" },
+      { text: "You can go first!", type: "good", feedback: "Yielding shows humility.", verse: "Philippians 2:3" },
+      { text: "You're really good at that!", type: "good", feedback: "Sincere compliments build people up.", verse: "Proverbs 12:25" },
+      { text: "Can I help?", type: "good", feedback: "Offering help is love in action.", verse: "Galatians 6:2" },
+      { text: "I love you!", type: "good", feedback: "The best way to express love.", verse: "1 John 4:7" },
 
-      // 나쁜 말 (bad)
-      { text: "너 때문이야!", type: "bad", feedback: "남을 탓하는 말은 상처를 줘요. 먼저 자신을 돌아봐요.", verse: "마태복음 7:3" },
-      { text: "넌 못해!", type: "bad", feedback: "무시하는 말은 사람의 마음을 꺾어요.", verse: "에베소서 4:29" },
-      { text: "쟤랑 놀지 마!", type: "bad", feedback: "친구를 따돌리는 말은 하나님이 슬퍼하세요.", verse: "잠언 6:16-19" },
-      { text: "거짓말쟁이!", type: "bad", feedback: "함부로 판단하는 말은 상처를 남겨요.", verse: "야고보서 4:11" },
-      { text: "나만 잘하면 돼!", type: "bad", feedback: "이기적인 말은 함께하는 마음을 깨뜨려요.", verse: "빌립보서 2:4" },
-      { text: "됐어, 짜증나!", type: "bad", feedback: "화난 말은 불처럼 퍼져요. 참는 것이 지혜예요.", verse: "잠언 15:1" },
-      { text: "못생겼어!", type: "bad", feedback: "외모를 놀리는 말은 하나님의 창조를 무시하는 거예요.", verse: "시편 139:14" },
-      { text: "재미없어, 저리 가!", type: "bad", feedback: "거부하는 말은 마음에 상처를 줘요.", verse: "로마서 15:7" },
-      { text: "그것도 모르냐?", type: "bad", feedback: "무시하는 말은 겸손하지 않은 태도예요.", verse: "잠언 11:2" },
-      { text: "쟤가 그랬어요!", type: "bad", feedback: "고자질하는 말보다 직접 화해하는 것이 좋아요.", verse: "마태복음 18:15" },
-      { text: "안 해! 싫어!", type: "bad", feedback: "거친 거절보다 부드러운 말이 더 좋아요.", verse: "잠언 15:1" },
-      { text: "바보!", type: "bad", feedback: "놀리는 말은 사람의 마음을 아프게 해요.", verse: "마태복음 5:22" },
+      // Bad words
+      { text: "It's all your fault!", type: "bad", feedback: "Blaming others hurts them. Look at yourself first.", verse: "Matthew 7:3" },
+      { text: "You can't do it!", type: "bad", feedback: "Dismissive words crush people's spirits.", verse: "Ephesians 4:29" },
+      { text: "Don't play with them!", type: "bad", feedback: "Excluding friends makes God sad.", verse: "Proverbs 6:16-19" },
+      { text: "Liar!", type: "bad", feedback: "Rash judgments leave lasting wounds.", verse: "James 4:11" },
+      { text: "Only I matter!", type: "bad", feedback: "Selfish words break the spirit of togetherness.", verse: "Philippians 2:4" },
+      { text: "Whatever, so annoying!", type: "bad", feedback: "Angry words spread like fire. Patience is wisdom.", verse: "Proverbs 15:1" },
+      { text: "You're ugly!", type: "bad", feedback: "Mocking someone's appearance disrespects God's creation.", verse: "Psalm 139:14" },
+      { text: "Boring, go away!", type: "bad", feedback: "Rejecting words wound the heart.", verse: "Romans 15:7" },
+      { text: "You don't even know that?", type: "bad", feedback: "Mocking shows a lack of humility.", verse: "Proverbs 11:2" },
+      { text: "They did it!", type: "bad", feedback: "Tattling is worse than making peace directly.", verse: "Matthew 18:15" },
+      { text: "No way! I don't want to!", type: "bad", feedback: "A gentle answer is better than harsh refusal.", verse: "Proverbs 15:1" },
+      { text: "Dummy!", type: "bad", feedback: "Name-calling hurts people's hearts.", verse: "Matthew 5:22" },
     ];
 
     let words = [];
@@ -410,8 +410,8 @@
       bubble.className = 'feedback-bubble ' + (correct ? 'correct' : 'wrong');
 
       if (!correct) {
-        const correctLabel = word.type === 'good' ? '좋은 말' : '나쁜 말';
-        document.getElementById('fb-text').textContent = '이 말은 "' + correctLabel + '"이에요! ' + word.feedback;
+        const correctLabel = word.type === 'good' ? 'a good word' : 'a bad word';
+        document.getElementById('fb-text').textContent = 'This is actually ' + correctLabel + '! ' + word.feedback;
       }
 
       overlay.classList.add('show');
@@ -436,17 +436,17 @@
       let emoji, title, msg;
 
       if (pct >= 90) {
-        emoji = '🌟'; title = '혀를 완벽하게 길들였어요!';
-        msg = '좋은 말과 나쁜 말을 정확히 분별하고 있어요! "입을 지키는 자는 자기의 생명을 보전하느니라" (잠언 13:3)';
+        emoji = '🌟'; title = 'You perfectly tamed your tongue!';
+        msg = 'You know exactly how to tell good words from bad! "Those who guard their lips preserve their lives." (Proverbs 13:3)';
       } else if (pct >= 70) {
-        emoji = '😊'; title = '잘하고 있어요!';
-        msg = '대부분 잘 분별했어요! 조금만 더 연습하면 혀를 완벽하게 다스릴 수 있어요.';
+        emoji = '😊'; title = 'Doing great!';
+        msg = 'You got most of them right! A little more practice and you\'ll master your tongue.';
       } else if (pct >= 50) {
-        emoji = '💪'; title = '괜찮아요, 더 연습해봐요!';
-        msg = '혀를 다스리는 건 쉽지 않아요. 하지만 하나님의 도움으로 할 수 있어요!';
+        emoji = '💪'; title = 'Not bad, keep practicing!';
+        msg = 'Taming the tongue isn\'t easy, but with God\'s help you can do it!';
       } else {
-        emoji = '📖'; title = '다시 도전해봐요!';
-        msg = '야고보서 3장을 읽어보면 혀의 힘에 대해 더 잘 알 수 있어요. 다시 도전해보세요!';
+        emoji = '📖'; title = 'Try again!';
+        msg = 'Read James chapter 3 to learn more about the power of the tongue. Try again!';
       }
 
       document.getElementById('result-emoji').textContent = emoji;

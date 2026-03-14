@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -316,7 +316,7 @@
     </div>
 
     <div class="score-bar">
-      <span class="score" style="color:var(--ears-color);">점수: <strong id="score">0</strong></span>
+      <span class="score" style="color:var(--ears-color);">Score: <strong id="score">0</strong></span>
       <span class="progress" id="progress">1 / 12</span>
     </div>
 
@@ -331,12 +331,12 @@
         </div>
         <div class="ground-rock"></div>
         <div class="ground-sand"></div>
-        <div class="label rock-label">⛰️ 반석</div>
-        <div class="label sand-label">🏖️ 모래</div>
+        <div class="label rock-label">⛰️ Rock</div>
+        <div class="label sand-label">🏖️ Sand</div>
       </div>
 
       <div class="wisdom-meter">
-        <span class="meter-label">👂 분별력</span>
+        <span class="meter-label">👂 Discernment</span>
         <div class="meter-track">
           <div class="meter-fill" id="meter-fill" style="width:50%;"></div>
         </div>
@@ -353,11 +353,11 @@
       <div class="judge-btns">
         <button class="judge-btn rock-btn" onclick="judge('truth')">
           <span class="btn-icon">⛰️</span>
-          참된 가르침
+          True Teaching
         </button>
         <button class="judge-btn sand-btn" onclick="judge('false')">
           <span class="btn-icon">🏖️</span>
-          거짓 가르침
+          False Teaching
         </button>
       </div>
     </div>
@@ -369,20 +369,20 @@
         <div class="result-score" id="result-score"></div>
         <p class="result-msg" id="result-msg"></p>
         <div class="btn-group">
-          <button class="retry-btn" onclick="startGame()">다시 도전! 🔄</button>
-          <a href="../../index.html" class="home-btn">홈으로 돌아가기 🏠</a>
+          <button class="retry-btn" onclick="startGame()">Try Again! 🔄</button>
+          <a href="../../index.html" class="home-btn">Back to Home 🏠</a>
         </div>
       </div>
 
       <div class="quiz-card" style="margin-top:16px; text-align:left;">
-        <h3 style="margin-bottom:12px;">📖 오늘의 말씀</h3>
+        <h3 style="margin-bottom:12px;">📖 Today's Verse</h3>
         <p style="font-size:0.9rem; line-height:1.7; color:#555;">
-          "네 귀를 기울여 지혜를 얻으며 네 마음을 기울여 명철을 얻으라"
-          <br><strong>— 잠언 2:2</strong>
+          "Turning your ear to wisdom and applying your heart to understanding"
+          <br><strong>— Proverbs 2:2</strong>
         </p>
         <p style="font-size:0.85rem; line-height:1.7; color:#555; margin-top:12px;">
-          "명철한 자의 마음은 지식을 얻고 지혜로운 자의 귀는 지식을 구하느니라"
-          <br><strong>— 잠언 18:15</strong>
+          "The heart of the discerning acquires knowledge, for the ears of the wise seek it out"
+          <br><strong>— Proverbs 18:15</strong>
         </p>
       </div>
     </div>
@@ -397,143 +397,143 @@
 
   <script>
     const allStatements = [
-      // 참된 가르침 (truth)
+      // True teachings (truth)
       {
         speaker: "📖",
-        text: "하나님의 말씀을 듣고 행하는 사람은 반석 위에 집을 지은 사람과 같아요.",
+        text: "Those who hear God's Word and put it into practice are like a person who built their house on the rock.",
         type: "truth",
-        feedback: "예수님이 직접 가르치신 말씀이에요! 듣기만 하는 것이 아니라 실천하는 것이 중요해요.",
-        verse: "마태복음 7:24",
-        source: "예수님의 가르침"
-      },
-      {
-        speaker: "📖",
-        text: "좋은 땅에 뿌려진 씨앗은 말씀을 듣고 깨닫고 열매를 맺는 사람이에요.",
-        type: "truth",
-        feedback: "씨 뿌리는 자의 비유에서 좋은 땅은 말씀을 귀 기울여 듣고 실천하는 사람이에요!",
-        verse: "누가복음 8:15",
-        source: "씨 뿌리는 자의 비유"
+        feedback: "This is what Jesus taught directly! It's not enough to just listen—we must also act on it.",
+        verse: "Matthew 7:24",
+        source: "Jesus' teaching"
       },
       {
         speaker: "📖",
-        text: "하나님은 모든 사람을 사랑하시고, 누구든 믿는 자에게 영생을 주세요.",
+        text: "The seed on good soil represents those who hear the word, understand it, and bear fruit.",
         type: "truth",
-        feedback: "요한복음 3:16의 핵심이에요! 하나님의 사랑은 모든 사람을 향해 있어요.",
-        verse: "요한복음 3:16",
-        source: "성경의 핵심"
+        feedback: "In the Parable of the Sower, the good soil represents those who listen carefully and put God's Word into practice!",
+        verse: "Luke 8:15",
+        source: "Parable of the Sower"
       },
       {
         speaker: "📖",
-        text: "지혜의 시작은 여호와를 경외하는 것이에요.",
+        text: "God loves everyone, and gives eternal life to whoever believes.",
         type: "truth",
-        feedback: "하나님을 먼저 알고 존경하는 것이 모든 지혜의 출발점이에요!",
-        verse: "잠언 9:10",
-        source: "잠언의 가르침"
+        feedback: "This is the heart of John 3:16! God's love is for all people.",
+        verse: "John 3:16",
+        source: "Heart of the Bible"
       },
       {
         speaker: "📖",
-        text: "서로 사랑하라. 이것이 내 계명이다.",
+        text: "The beginning of wisdom is the fear of the LORD.",
         type: "truth",
-        feedback: "예수님의 새 계명이에요. 서로 사랑하는 것이 하나님의 뜻이에요!",
-        verse: "요한복음 13:34",
-        source: "예수님의 계명"
+        feedback: "Knowing and revering God first is the starting point of all wisdom!",
+        verse: "Proverbs 9:10",
+        source: "Teaching from Proverbs"
       },
       {
         speaker: "📖",
-        text: "네 이웃을 네 자신같이 사랑하라.",
+        text: "Love one another. This is my commandment.",
         type: "truth",
-        feedback: "두 번째로 큰 계명이에요. 다른 사람을 내 자신처럼 소중히 여기라는 뜻이에요!",
-        verse: "마태복음 22:39",
-        source: "예수님의 가르침"
+        feedback: "This is Jesus' new commandment. Loving one another is God's will!",
+        verse: "John 13:34",
+        source: "Jesus' commandment"
       },
       {
         speaker: "📖",
-        text: "귀 있는 자는 들을지어다! 성령이 교회들에게 하시는 말씀을 들으라.",
+        text: "Love your neighbor as yourself.",
         type: "truth",
-        feedback: "하나님의 말씀에 귀를 기울이라는 뜻이에요. 듣는 것이 분별의 시작이에요!",
-        verse: "요한계시록 2:7",
-        source: "요한계시록"
+        feedback: "This is the second greatest commandment. It means to value others as much as yourself!",
+        verse: "Matthew 22:39",
+        source: "Jesus' teaching"
       },
       {
         speaker: "📖",
-        text: "비가 내리고 바람이 불어도 반석 위의 집은 무너지지 않아요.",
+        text: "Whoever has ears, let them hear! Hear what the Spirit says to the churches.",
         type: "truth",
-        feedback: "하나님 말씀 위에 세운 삶은 어떤 시련이 와도 흔들리지 않아요!",
-        verse: "마태복음 7:25",
-        source: "반석 위의 집 비유"
-      },
-      // 거짓 가르침 (false)
-      {
-        speaker: "🐍",
-        text: "하나님 말씀은 듣기만 하면 돼. 꼭 실천할 필요는 없어.",
-        type: "false",
-        feedback: "듣기만 하고 행하지 않으면 모래 위에 집을 짓는 것과 같아요! 듣고 행해야 해요.",
-        verse: "마태복음 7:26",
-        source: "잘못된 생각"
+        feedback: "This means to pay attention to God's Word. Listening is where discernment begins!",
+        verse: "Revelation 2:7",
+        source: "Revelation"
       },
       {
-        speaker: "🐍",
-        text: "내가 잘나서 이렇게 됐어. 하나님 도움은 필요 없어.",
-        type: "false",
-        feedback: "교만은 넘어짐의 앞잡이에요. 모든 좋은 것은 하나님에게서 오는 거예요!",
-        verse: "잠언 16:18",
-        source: "교만한 생각"
+        speaker: "📖",
+        text: "The rain came down, the winds blew, but the house on the rock did not fall.",
+        type: "truth",
+        feedback: "A life built on God's Word will not be shaken by any trial!",
+        verse: "Matthew 7:25",
+        source: "Parable of the house on the rock"
       },
+      // False teachings (false)
       {
         speaker: "🐍",
-        text: "귀가 가려워서 듣기 좋은 말만 골라 들으면 돼.",
+        text: "You just need to hear God's Word. You don't actually need to practice it.",
         type: "false",
-        feedback: "디모데후서에서 경고한 바로 그 모습이에요! 진리보다 듣기 좋은 말을 좋아하면 안 돼요.",
-        verse: "디모데후서 4:3-4",
-        source: "거짓된 태도"
+        feedback: "Hearing without doing is like building a house on sand! We must hear AND do.",
+        verse: "Matthew 7:26",
+        source: "Wrong thinking"
       },
       {
         speaker: "🐍",
-        text: "착한 일만 많이 하면 하나님을 안 믿어도 괜찮아.",
+        text: "I'm great on my own. I don't need God's help.",
         type: "false",
-        feedback: "착한 일도 중요하지만, 구원은 믿음으로 받는 하나님의 선물이에요!",
-        verse: "에베소서 2:8-9",
-        source: "잘못된 생각"
+        feedback: "Pride comes before a fall. Every good thing comes from God!",
+        verse: "Proverbs 16:18",
+        source: "Proud thinking"
       },
       {
         speaker: "🐍",
-        text: "성경은 옛날 이야기일 뿐이야. 지금은 상관없어.",
+        text: "Just listen to whatever sounds good and makes you feel comfortable.",
         type: "false",
-        feedback: "하나님의 말씀은 영원히 살아있고 힘이 있어요! 오늘도 우리에게 말씀하세요.",
-        verse: "히브리서 4:12",
-        source: "잘못된 생각"
+        feedback: "This is exactly what 2 Timothy warns about! We shouldn't prefer pleasant words over truth.",
+        verse: "2 Timothy 4:3-4",
+        source: "False attitude"
       },
       {
         speaker: "🐍",
-        text: "내 뜻대로 사는 게 가장 좋아. 하나님 뜻은 재미없어.",
+        text: "As long as you do good deeds, you don't need to believe in God.",
         type: "false",
-        feedback: "내 뜻대로 사는 것은 모래 위의 집이에요. 하나님의 뜻이 가장 좋은 길이에요!",
-        verse: "잠언 14:12",
-        source: "거짓된 유혹"
+        feedback: "Good deeds are important, but salvation is a gift from God received through faith!",
+        verse: "Ephesians 2:8-9",
+        source: "Wrong thinking"
       },
       {
         speaker: "🐍",
-        text: "나쁜 친구를 따라가도 괜찮아. 나만 안 변하면 되지.",
+        text: "The Bible is just an old story. It doesn't matter anymore.",
         type: "false",
-        feedback: "나쁜 친구와 함께하면 결국 영향을 받게 돼요. 귀를 기울이는 대상이 중요해요!",
-        verse: "잠언 13:20",
-        source: "위험한 생각"
+        feedback: "God's Word is alive and powerful forever! He still speaks to us today.",
+        verse: "Hebrews 4:12",
+        source: "Wrong thinking"
       },
       {
         speaker: "🐍",
-        text: "기도 안 해도 돼. 하나님은 어차피 다 아시잖아.",
+        text: "Living my own way is the best. God's way is boring.",
         type: "false",
-        feedback: "하나님이 다 아시지만, 기도는 하나님과 대화하는 소중한 시간이에요!",
-        verse: "데살로니가전서 5:17",
-        source: "잘못된 핑계"
+        feedback: "Living your own way is like building on sand. God's way is always the best path!",
+        verse: "Proverbs 14:12",
+        source: "False temptation"
       },
       {
         speaker: "🐍",
-        text: "남들이 다 하니까 괜찮아. 다수가 항상 옳은 거야.",
+        text: "It's fine to follow bad friends. I won't change.",
         type: "false",
-        feedback: "많은 사람이 하는 것이 항상 옳은 것은 아니에요. 하나님의 말씀이 기준이에요!",
-        verse: "로마서 12:2",
-        source: "세상의 유혹"
+        feedback: "Bad company will eventually influence you. Who you listen to matters!",
+        verse: "Proverbs 13:20",
+        source: "Dangerous thinking"
+      },
+      {
+        speaker: "🐍",
+        text: "You don't need to pray. God knows everything anyway.",
+        type: "false",
+        feedback: "God does know everything, but prayer is precious time talking with God!",
+        verse: "1 Thessalonians 5:17",
+        source: "Wrong excuse"
+      },
+      {
+        speaker: "🐍",
+        text: "Everyone else is doing it, so it must be okay. The majority is always right.",
+        type: "false",
+        feedback: "What the majority does isn't always right. God's Word is the standard!",
+        verse: "Romans 12:2",
+        source: "Worldly temptation"
       }
     ];
 
@@ -677,17 +677,17 @@
       let emoji, title, msg;
 
       if (pct >= 90) {
-        emoji = '🌟'; title = '지혜의 귀를 가졌어요!';
-        msg = '참된 가르침과 거짓 가르침을 정확히 분별하고 있어요! 반석 위에 집을 지은 지혜로운 사람이에요!';
+        emoji = '🌟'; title = 'You have ears of wisdom!';
+        msg = 'You can perfectly discern true from false teaching! You are a wise person who built their house on the rock!';
       } else if (pct >= 70) {
-        emoji = '😊'; title = '잘 듣고 있어요!';
-        msg = '대부분 잘 분별했어요! 조금만 더 귀를 기울이면 완벽해질 거예요.';
+        emoji = '😊'; title = 'Listening well!';
+        msg = 'You discerned most of them correctly! Just a little more and you\'ll be perfect.';
       } else if (pct >= 50) {
-        emoji = '💪'; title = '더 연습해봐요!';
-        msg = '분별하는 귀를 훈련하고 있어요. 하나님 말씀을 더 읽으면 더 잘 분별할 수 있어요!';
+        emoji = '💪'; title = 'Keep practicing!';
+        msg = 'You\'re training your ears to discern. Read more of God\'s Word and you\'ll get better!';
       } else {
-        emoji = '📖'; title = '다시 도전해봐요!';
-        msg = '마태복음 7장의 반석 위의 집 이야기를 읽어보고 다시 도전해보세요!';
+        emoji = '📖'; title = 'Try again!';
+        msg = 'Read the story of the house on the rock in Matthew 7 and try again!';
       }
 
       document.getElementById('result-emoji').textContent = emoji;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -213,7 +213,7 @@
     </div>
 
     <div class="score-bar">
-      <span class="score" style="color:var(--hands-color);">점수: <strong id="score">0</strong></span>
+      <span class="score" style="color:var(--hands-color);">Score: <strong id="score">0</strong></span>
       <span class="progress" id="progress">1 / 10</span>
     </div>
 
@@ -227,7 +227,7 @@
 
         <div class="answer-options" id="answer-options"></div>
         <div class="explanation" id="explanation"></div>
-        <button class="next-btn" id="next-btn" onclick="nextRound()">다음 문제 →</button>
+        <button class="next-btn" id="next-btn" onclick="nextRound()">Next Question →</button>
       </div>
     </div>
 
@@ -238,20 +238,20 @@
         <div class="result-score" id="result-score"></div>
         <p class="result-msg" id="result-msg"></p>
         <div class="btn-group">
-          <button class="retry-btn" onclick="startGame()">다시 도전! 🔄</button>
-          <a href="../../index.html" class="home-btn">홈으로 돌아가기 🏠</a>
+          <button class="retry-btn" onclick="startGame()">Try Again! 🔄</button>
+          <a href="../../index.html" class="home-btn">Back to Home 🏠</a>
         </div>
       </div>
 
       <div class="quiz-card" style="margin-top:16px; text-align:left;">
-        <h3 style="margin-bottom:12px;">📖 오늘의 말씀</h3>
+        <h3 style="margin-bottom:12px;">📖 Today's Verse</h3>
         <p style="font-size:0.9rem; line-height:1.7; color:#555;">
-          "네 손이 일찍이 얻은 것은 힘을 다하여 할지어다"
-          <br><strong>— 전도서 9:10</strong>
+          "Whatever your hand finds to do, do it with all your might"
+          <br><strong>— Ecclesiastes 9:10</strong>
         </p>
         <p style="font-size:0.85rem; line-height:1.7; color:#555; margin-top:12px;">
-          "너희 각 사람이 은사를 받은 대로 하나님의 여러 가지 은혜의 선한 청지기같이 서로 봉사하라"
-          <br><strong>— 베드로전서 4:10</strong>
+          "Each of you should use whatever gift you have received to serve others, as faithful stewards of God's grace in its various forms"
+          <br><strong>— 1 Peter 4:10</strong>
         </p>
       </div>
     </div>
@@ -260,148 +260,148 @@
   <script>
     const allQuestions = [
       {
-        title: "🏔️ 모세의 전투 지원",
-        story: "아말렉이 이스라엘을 공격했을 때, 모세가 손을 들면 이스라엘이 이기고, 내리면 졌어요. 모세의 손이 피곤해졌을 때 누가 도왔나요?",
-        verse: "📖 출애굽기 17:8-14",
+        title: "🏔️ Moses' Battle Support",
+        story: "When Amalek attacked Israel, Israel was winning when Moses raised his hands, and losing when he lowered them. Who helped when Moses' arms grew tired?",
+        verse: "📖 Exodus 17:8-14",
         choices: [
-          { emoji: "👥", text: "아론과 훌이 양쪽에서 팔을 받쳐주었다", correct: true },
-          { emoji: "⚔️", text: "여호수아가 혼자 모든 적을 물리쳤다", correct: false },
-          { emoji: "🏃", text: "모세가 쉬지 않고 혼자 버텼다", correct: false },
-          { emoji: "🪨", text: "아무도 돕지 않았다", correct: false }
+          { emoji: "👥", text: "Aaron and Hur supported his arms on each side", correct: true },
+          { emoji: "⚔️", text: "Joshua defeated all enemies alone", correct: false },
+          { emoji: "🏃", text: "Moses endured alone without rest", correct: false },
+          { emoji: "🪨", text: "No one helped", correct: false }
         ],
-        explanation: "아론과 훌은 모세의 양쪽에서 팔을 받쳐주었어요. 뒤에서 돕는 역할도 전쟁에서 싸우는 것만큼 중요해요! 우리도 보이지 않는 곳에서 돕는 손이 될 수 있어요."
+        explanation: "Aaron and Hur supported Moses' arms from each side. Behind-the-scenes help is just as important as fighting in battle! We can be helping hands too."
       },
       {
-        title: "⚔️ 다윗의 전리품 나눔",
-        story: "다윗이 전투에서 승리하고 돌아왔을 때, 지쳐서 뒤에 남아있던 200명의 병사들에게 전리품을 어떻게 했나요?",
-        verse: "📖 사무엘상 30:18-25",
+        title: "⚔️ David's Sharing of Spoils",
+        story: "When David returned victorious from battle, what did he do with the spoils for the 200 soldiers who were too exhausted to fight?",
+        verse: "📖 1 Samuel 30:18-25",
         choices: [
-          { emoji: "🤝", text: "싸운 사람과 똑같이 나누어 주었다", correct: true },
-          { emoji: "🚫", text: "아무것도 주지 않았다", correct: false },
-          { emoji: "💰", text: "절반만 주었다", correct: false },
-          { emoji: "😡", text: "벌을 주었다", correct: false }
+          { emoji: "🤝", text: "He shared equally with those who fought", correct: true },
+          { emoji: "🚫", text: "He gave them nothing", correct: false },
+          { emoji: "💰", text: "He gave them only half", correct: false },
+          { emoji: "😡", text: "He punished them", correct: false }
         ],
-        explanation: "다윗은 뒤에서 짐을 지킨 사람도 전쟁에 나간 사람과 동등하게 전리품을 나누었어요. 모든 역할은 똑같이 소중해요!"
+        explanation: "David shared the spoils equally between those who fought and those who guarded the supplies. Every role is equally valuable!"
       },
       {
-        title: "💧 물 한 그릇의 가치",
-        story: "예수님은 제자의 이름으로 누군가에게 냉수 한 그릇을 주면 어떻게 된다고 하셨나요?",
-        verse: "📖 마태복음 10:41-42",
+        title: "💧 The Value of a Cup of Water",
+        story: "Jesus said what happens if someone gives even a cup of cold water in a disciple's name?",
+        verse: "📖 Matthew 10:41-42",
         choices: [
-          { emoji: "🎁", text: "결단코 상을 잃지 않을 것이다", correct: true },
-          { emoji: "🤷", text: "아무 의미 없다", correct: false },
-          { emoji: "📝", text: "더 큰 일을 해야 상을 받는다", correct: false },
-          { emoji: "⏳", text: "나중에 갚아야 한다", correct: false }
+          { emoji: "🎁", text: "They will certainly not lose their reward", correct: true },
+          { emoji: "🤷", text: "It means nothing", correct: false },
+          { emoji: "📝", text: "You need to do bigger things to get a reward", correct: false },
+          { emoji: "⏳", text: "They must pay it back later", correct: false }
         ],
-        explanation: "작은 도움이라도 하나님은 다 보고 계세요! 물 한 그릇이라도 진심으로 주면 하나님이 기뻐하시고 상을 주세요."
+        explanation: "God sees even the smallest acts of kindness! Even a cup of water given sincerely brings God's joy and reward."
       },
       {
-        title: "🩹 선한 사마리아인",
-        story: "강도를 만나 다친 사람을 보고 제사장과 레위인은 지나갔어요. 누가 멈춰서 도왔나요?",
-        verse: "📖 누가복음 10:30-37",
+        title: "🩹 The Good Samaritan",
+        story: "A man was beaten by robbers. A priest and a Levite passed by. Who stopped to help?",
+        verse: "📖 Luke 10:30-37",
         choices: [
-          { emoji: "💛", text: "사마리아 사람이 직접 치료하고 숙소비까지 주었다", correct: true },
-          { emoji: "🏛️", text: "제사장이 돌아와서 도왔다", correct: false },
-          { emoji: "👀", text: "레위인이 멀리서 기도해주었다", correct: false },
-          { emoji: "🏃", text: "아무도 돕지 않았다", correct: false }
+          { emoji: "💛", text: "A Samaritan treated his wounds and paid for his lodging", correct: true },
+          { emoji: "🏛️", text: "The priest came back to help", correct: false },
+          { emoji: "👀", text: "The Levite prayed from a distance", correct: false },
+          { emoji: "🏃", text: "Nobody helped", correct: false }
         ],
-        explanation: "사마리아인은 민족이 달라도 다친 사람을 도왔어요. 진짜 이웃은 도움이 필요한 사람에게 손을 내미는 사람이에요!"
+        explanation: "The Samaritan helped despite being from a different nation. A true neighbor reaches out to anyone in need!"
       },
       {
-        title: "🍞 엘리야를 먹인 과부",
-        story: "가뭄 때 사르밧 과부는 마지막 남은 기름과 가루로 무엇을 했나요?",
-        verse: "📖 열왕기상 17:8-16",
+        title: "🍞 The Widow Who Fed Elijah",
+        story: "During a drought, what did the widow of Zarephath do with her last oil and flour?",
+        verse: "📖 1 Kings 17:8-16",
         choices: [
-          { emoji: "🤲", text: "엘리야에게 먼저 떡을 만들어 주었다", correct: true },
-          { emoji: "🏠", text: "자기와 아들만 먹고 거절했다", correct: false },
-          { emoji: "🏪", text: "시장에 가서 더 사왔다", correct: false },
-          { emoji: "😢", text: "울면서 아무것도 하지 않았다", correct: false }
+          { emoji: "🤲", text: "She made bread for Elijah first", correct: true },
+          { emoji: "🏠", text: "She refused and fed only herself and her son", correct: false },
+          { emoji: "🏪", text: "She went to the market to buy more", correct: false },
+          { emoji: "😢", text: "She cried and did nothing", correct: false }
         ],
-        explanation: "과부는 마지막 양식을 하나님의 사람에게 먼저 나누었고, 하나님은 기름과 가루가 떨어지지 않게 해주셨어요. 나눔에는 하나님의 축복이 따라요!"
+        explanation: "The widow shared her last food with God's servant, and God made sure her oil and flour never ran out. Sharing brings God's blessing!"
       },
       {
-        title: "🦶 예수님의 발 씻김",
-        story: "최후의 만찬에서 예수님은 제자들에게 무엇을 하셨나요?",
-        verse: "📖 요한복음 13:1-17",
+        title: "🦶 Jesus Washes Feet",
+        story: "At the Last Supper, what did Jesus do for His disciples?",
+        verse: "📖 John 13:1-17",
         choices: [
-          { emoji: "💧", text: "제자들의 발을 직접 씻겨 주셨다", correct: true },
-          { emoji: "👑", text: "왕의 자리에 앉으셨다", correct: false },
-          { emoji: "📜", text: "긴 설교를 하셨다", correct: false },
-          { emoji: "🍷", text: "포도주만 나누셨다", correct: false }
+          { emoji: "💧", text: "He personally washed their feet", correct: true },
+          { emoji: "👑", text: "He sat on a throne", correct: false },
+          { emoji: "📜", text: "He gave a long sermon", correct: false },
+          { emoji: "🍷", text: "He only shared wine", correct: false }
         ],
-        explanation: "하나님의 아들이신 예수님이 종의 일인 발 씻김을 하셨어요. 섬김은 가장 높은 리더십이에요!"
+        explanation: "Jesus, the Son of God, performed a servant's task of washing feet. Service is the highest form of leadership!"
       },
       {
-        title: "🧺 다비다의 손",
-        story: "욥바에 살던 다비다(도르가)는 무엇으로 유명했나요?",
-        verse: "📖 사도행전 9:36-42",
+        title: "🧺 Dorcas' Hands",
+        story: "What was Dorcas (Tabitha) of Joppa known for?",
+        verse: "📖 Acts 9:36-42",
         choices: [
-          { emoji: "🧵", text: "가난한 과부들에게 옷을 만들어 주었다", correct: true },
-          { emoji: "💰", text: "부자들에게 투자했다", correct: false },
-          { emoji: "📢", text: "광장에서 연설했다", correct: false },
-          { emoji: "🏛️", text: "성전을 지었다", correct: false }
+          { emoji: "🧵", text: "She made clothes for poor widows", correct: true },
+          { emoji: "💰", text: "She invested for the wealthy", correct: false },
+          { emoji: "📢", text: "She gave speeches in the plaza", correct: false },
+          { emoji: "🏛️", text: "She built a temple", correct: false }
         ],
-        explanation: "다비다는 자기 손으로 옷을 만들어 가난한 사람들을 도왔어요. 우리 손으로 할 수 있는 작은 봉사가 큰 사랑이 돼요!"
+        explanation: "Dorcas used her own hands to make clothes for the poor. Small acts of service done with our hands can become great love!"
       },
       {
-        title: "🏠 마르다의 섬김",
-        story: "예수님이 마르다와 마리아의 집을 방문했을 때, 마르다는 무엇을 했나요?",
-        verse: "📖 누가복음 10:38-42",
+        title: "🏠 Martha's Service",
+        story: "When Jesus visited Martha and Mary's home, what did Martha do?",
+        verse: "📖 Luke 10:38-42",
         choices: [
-          { emoji: "🍳", text: "음식을 준비하며 손님을 대접했다", correct: true },
-          { emoji: "📖", text: "성경을 읽었다", correct: false },
-          { emoji: "😴", text: "쉬고 있었다", correct: false },
-          { emoji: "🏃", text: "밖에 나가 있었다", correct: false }
+          { emoji: "🍳", text: "She prepared food to serve the guest", correct: true },
+          { emoji: "📖", text: "She read the Bible", correct: false },
+          { emoji: "😴", text: "She was resting", correct: false },
+          { emoji: "🏃", text: "She went outside", correct: false }
         ],
-        explanation: "마르다는 손으로 음식을 만들어 섬겼어요. 봉사도 중요하지만, 예수님은 말씀 듣는 것도 중요하다고 가르쳐 주셨어요. 균형이 중요해요!"
+        explanation: "Martha served by preparing food. Service is important, but Jesus also taught that listening to God's Word matters too. Balance is key!"
       },
       {
-        title: "👦 소년의 도시락",
-        story: "5천 명이 배고팠을 때, 한 소년이 어떻게 도왔나요?",
-        verse: "📖 요한복음 6:1-14",
+        title: "👦 The Boy's Lunch",
+        story: "When 5,000 people were hungry, how did a young boy help?",
+        verse: "📖 John 6:1-14",
         choices: [
-          { emoji: "🐟", text: "보리떡 5개와 물고기 2마리를 예수님께 드렸다", correct: true },
-          { emoji: "🏃", text: "빵집에 달려가서 사왔다", correct: false },
-          { emoji: "🤐", text: "도시락을 숨겼다", correct: false },
-          { emoji: "😥", text: "자기만 먹었다", correct: false }
+          { emoji: "🐟", text: "He gave Jesus 5 loaves and 2 fish", correct: true },
+          { emoji: "🏃", text: "He ran to a bakery to buy bread", correct: false },
+          { emoji: "🤐", text: "He hid his lunch", correct: false },
+          { emoji: "😥", text: "He ate it all himself", correct: false }
         ],
-        explanation: "소년은 작은 도시락을 기꺼이 내놓았고, 예수님은 그것으로 5천 명을 먹이셨어요! 작은 나눔도 하나님 손에서 큰 기적이 돼요."
+        explanation: "The boy willingly offered his small lunch, and Jesus fed 5,000 people with it! Even small sharing becomes a great miracle in God's hands."
       },
       {
-        title: "🫗 가난한 과부의 헌금",
-        story: "성전에서 부자들이 많이 헌금할 때, 가난한 과부는 어떻게 했나요?",
-        verse: "📖 마가복음 12:41-44",
+        title: "🫗 The Poor Widow's Offering",
+        story: "When rich people gave large offerings at the temple, what did the poor widow do?",
+        verse: "📖 Mark 12:41-44",
         choices: [
-          { emoji: "💝", text: "가진 것 전부인 동전 두 닢을 드렸다", correct: true },
-          { emoji: "🙈", text: "부끄러워서 드리지 않았다", correct: false },
-          { emoji: "💰", text: "부자보다 더 많이 드렸다", correct: false },
-          { emoji: "😤", text: "부자들을 부러워했다", correct: false }
+          { emoji: "💝", text: "She gave two small coins—all she had", correct: true },
+          { emoji: "🙈", text: "She was too embarrassed to give", correct: false },
+          { emoji: "💰", text: "She gave more than the rich", correct: false },
+          { emoji: "😤", text: "She envied the rich", correct: false }
         ],
-        explanation: "예수님은 과부가 가장 많이 드렸다고 하셨어요. 얼마를 드리느냐보다 마음을 다해 드리는 것이 중요해요!"
+        explanation: "Jesus said the widow gave the most. It's not about how much you give, but giving with all your heart!"
       },
       {
-        title: "💪 느헤미야의 성벽 재건",
-        story: "느헤미야가 예루살렘 성벽을 다시 쌓을 때, 백성들은 어떻게 했나요?",
-        verse: "📖 느헤미야 3-4장",
+        title: "💪 Nehemiah's Wall Rebuilding",
+        story: "When Nehemiah rebuilt the walls of Jerusalem, what did the people do?",
+        verse: "📖 Nehemiah 3-4",
         choices: [
-          { emoji: "🧱", text: "각자 자기 집 앞의 성벽을 맡아 함께 쌓았다", correct: true },
-          { emoji: "👷", text: "느헤미야 혼자 다 쌓았다", correct: false },
-          { emoji: "💤", text: "너무 힘들어서 포기했다", correct: false },
-          { emoji: "💵", text: "돈을 모아 외국인을 고용했다", correct: false }
+          { emoji: "🧱", text: "Each person took responsibility for the section near their home", correct: true },
+          { emoji: "👷", text: "Nehemiah built it all alone", correct: false },
+          { emoji: "💤", text: "They gave up because it was too hard", correct: false },
+          { emoji: "💵", text: "They hired foreigners to do it", correct: false }
         ],
-        explanation: "모든 백성이 각자 맡은 부분을 함께 일해서 52일 만에 성벽을 완성했어요! 함께 힘을 모으면 불가능해 보이는 일도 할 수 있어요."
+        explanation: "Everyone worked together on their assigned section and completed the wall in just 52 days! When we join forces, we can accomplish what seems impossible."
       },
       {
-        title: "🧤 룻의 헌신",
-        story: "시어머니 나오미가 고향으로 돌아갈 때, 룻은 어떻게 했나요?",
-        verse: "📖 룻기 1:16-17",
+        title: "🧤 Ruth's Devotion",
+        story: "When Naomi returned to her homeland, what did Ruth do?",
+        verse: "📖 Ruth 1:16-17",
         choices: [
-          { emoji: "🤝", text: "끝까지 함께하며 이삭 줍기로 가족을 부양했다", correct: true },
-          { emoji: "👋", text: "작별 인사를 하고 고향으로 돌아갔다", correct: false },
-          { emoji: "💰", text: "돈만 보내주었다", correct: false },
-          { emoji: "😢", text: "울기만 했다", correct: false }
+          { emoji: "🤝", text: "She stayed with Naomi and provided for her by gleaning grain", correct: true },
+          { emoji: "👋", text: "She said goodbye and went home", correct: false },
+          { emoji: "💰", text: "She just sent money", correct: false },
+          { emoji: "😢", text: "She just cried", correct: false }
         ],
-        explanation: "룻은 '어머니의 하나님이 나의 하나님'이라며 끝까지 함께했어요. 손으로 이삭을 주워 가족을 먹였고, 하나님은 그녀를 예수님의 조상으로 축복해주셨어요!"
+        explanation: "Ruth said 'Your God will be my God' and stayed with Naomi to the end. She gleaned grain to feed the family, and God blessed her as an ancestor of Jesus!"
       }
     ];
 
@@ -493,7 +493,7 @@
       expEl.className = 'explanation show';
 
       const nextBtn = document.getElementById('next-btn');
-      nextBtn.textContent = current < TOTAL_ROUNDS - 1 ? '다음 문제 →' : '결과 보기 🎉';
+      nextBtn.textContent = current < TOTAL_ROUNDS - 1 ? 'Next Question →' : 'See Results 🎉';
       nextBtn.className = 'next-btn show';
     }
 
@@ -514,17 +514,17 @@
       let emoji, title, msg;
 
       if (pct >= 90) {
-        emoji = '🌟'; title = '봉사의 달인!';
-        msg = '성경 속 봉사 이야기를 아주 잘 알고 있어요! "네 손이 일찍이 얻은 것은 힘을 다하여 할지어다" (전도서 9:10)';
+        emoji = '🌟'; title = 'Service Champion!';
+        msg = 'You know the Bible\'s service stories very well! "Whatever your hand finds to do, do it with all your might." (Ecclesiastes 9:10)';
       } else if (pct >= 70) {
-        emoji = '😊'; title = '따뜻한 손!';
-        msg = '봉사의 마음이 넘쳐요! 조금만 더 공부하면 봉사 마스터!';
+        emoji = '😊'; title = 'Warm Hands!';
+        msg = 'Your heart for service overflows! A little more study and you\'ll be a service master!';
       } else if (pct >= 50) {
-        emoji = '💪'; title = '괜찮아요!';
-        msg = '성경에는 아름다운 봉사 이야기가 가득해요. 더 읽어보면 더 잘 알 수 있어요!';
+        emoji = '💪'; title = 'Not bad!';
+        msg = 'The Bible is full of beautiful service stories. Read more and you\'ll know even more!';
       } else {
-        emoji = '📖'; title = '다시 도전해봐요!';
-        msg = '성경 속 봉사 이야기를 더 읽어보고 다시 도전해보세요. 작은 도움도 큰 사랑이에요!';
+        emoji = '📖'; title = 'Try again!';
+        msg = 'Read more Bible stories about service and try again. Even small help is great love!';
       }
 
       document.getElementById('result-emoji').textContent = emoji;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -171,8 +171,8 @@
 
       <div class="start-overlay" id="start-overlay">
         <h3>👟 Gospel Runner</h3>
-        <p>복음의 발로 달려가세요!</p>
-        <button class="play-btn" onclick="startGame()">달리기 시작! 🏃</button>
+        <p>Run with the feet of the gospel!</p>
+        <button class="play-btn" onclick="startGame()">Start Running! 🏃</button>
       </div>
 
       <div class="gameover-overlay" id="gameover-overlay">
@@ -182,18 +182,18 @@
           <div class="go-score" id="go-score"></div>
           <div class="go-msg" id="go-msg"></div>
           <div class="go-btns">
-            <button class="retry-btn" onclick="startGame()">다시 달리기! 🔄</button>
-            <a href="../../index.html" class="home-btn">홈으로 돌아가기 🏠</a>
+            <button class="retry-btn" onclick="startGame()">Run Again! 🔄</button>
+            <a href="../../index.html" class="home-btn">Back to Home 🏠</a>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="controls-hint">탭/클릭: 점프 · 길게 누르기: 높이 점프</div>
+    <div class="controls-hint">Tap/Click: Jump · Hold: High Jump</div>
 
     <div class="verse-banner" style="margin-top:12px;">
-      <div class="verse-text">"좋은 소식을 전하며 평화를 알리는 자의 발이 산 위에서 얼마나 아름다운가"</div>
-      <div class="verse-ref">— 이사야 52:7</div>
+      <div class="verse-text">"How beautiful on the mountains are the feet of those who bring good news, who proclaim peace"</div>
+      <div class="verse-ref">— Isaiah 52:7</div>
     </div>
   </div>
 
@@ -244,30 +244,30 @@
 
     // Item types
     const ITEM_TYPES = [
-      { emoji: '📜', name: '복음', points: 10 },
-      { emoji: '🍞', name: '빵', points: 15 },
-      { emoji: '💧', name: '물', points: 10 },
-      { emoji: '👕', name: '옷', points: 15 },
-      { emoji: '⭐', name: '별', points: 20 },
-      { emoji: '✝️', name: '십자가', points: 25 }
+      { emoji: '📜', name: 'Gospel', points: 10 },
+      { emoji: '🍞', name: 'Bread', points: 15 },
+      { emoji: '💧', name: 'Water', points: 10 },
+      { emoji: '👕', name: 'Clothes', points: 15 },
+      { emoji: '⭐', name: 'Star', points: 20 },
+      { emoji: '✝️', name: 'Cross', points: 25 }
     ];
 
     const OBSTACLE_TYPES = [
-      { emoji: '🪨', name: '바위', w: 30, h: 30 },
-      { emoji: '🌵', name: '가시', w: 25, h: 40 },
-      { emoji: '🔥', name: '불', w: 28, h: 35 }
+      { emoji: '🪨', name: 'Rock', w: 30, h: 30 },
+      { emoji: '🌵', name: 'Thorns', w: 25, h: 40 },
+      { emoji: '🔥', name: 'Fire', w: 28, h: 35 }
     ];
 
     const PERSON_EMOJIS = ['👦', '👧', '👨', '👩', '👴', '👵', '🧒'];
 
     // Verses shown on milestone
     const VERSES = [
-      { text: "믿음은 들음에서 나며", ref: "로마서 10:17" },
-      { text: "아름다운 발이여!", ref: "이사야 52:7" },
-      { text: "너희는 온 천하에 다니며 복음을 전파하라", ref: "마가복음 16:15" },
-      { text: "내가 너희를 사람을 낚는 어부가 되게 하리라", ref: "마태복음 4:19" },
-      { text: "선한 사마리아인처럼 이웃을 사랑하라", ref: "누가복음 10:37" },
-      { text: "주린 자에게 먹을 것을 주었느니라", ref: "마태복음 25:35" }
+      { text: "Faith comes from hearing", ref: "Romans 10:17" },
+      { text: "How beautiful are the feet!", ref: "Isaiah 52:7" },
+      { text: "Go into all the world and preach the gospel", ref: "Mark 16:15" },
+      { text: "I will make you fishers of men", ref: "Matthew 4:19" },
+      { text: "Love your neighbor like the Good Samaritan", ref: "Luke 10:37" },
+      { text: "I was hungry and you gave me food", ref: "Matthew 25:35" }
     ];
 
     let currentVerse = 0;
@@ -614,19 +614,19 @@
 
       let emoji, title, msg;
       if (score >= 200) {
-        emoji = '🌟'; title = '복음의 전사!';
-        msg = '아름다운 발로 복음을 전하며 많은 사람을 도왔어요! "주의 말씀을 확인하는 표적이 따르더라" (막 16:20)';
+        emoji = '🌟'; title = 'Gospel Warrior!';
+        msg = 'You spread the gospel with beautiful feet and helped many people! "Signs followed to confirm the word." (Mark 16:20)';
       } else if (score >= 100) {
-        emoji = '😊'; title = '열심히 달렸어요!';
-        msg = '복음을 전하며 사람들을 도왔어요. 더 멀리 달려보세요!';
+        emoji = '😊'; title = 'Great run!';
+        msg = 'You spread the gospel and helped people. Try running even farther!';
       } else {
-        emoji = '💪'; title = '다시 달려봐요!';
-        msg = '복음의 발로 더 멀리 달려가서 많은 사람을 만나보세요!';
+        emoji = '💪'; title = 'Run again!';
+        msg = 'Run farther with the feet of the gospel and meet more people!';
       }
 
       document.getElementById('go-emoji').textContent = emoji;
       document.getElementById('go-title').textContent = title;
-      document.getElementById('go-score').textContent = '⭐ ' + score + '점 · ' + Math.floor(distance) + 'm';
+      document.getElementById('go-score').textContent = '⭐ ' + score + ' pts · ' + Math.floor(distance) + 'm';
       document.getElementById('go-msg').textContent = msg;
       document.getElementById('gameover-overlay').style.display = 'flex';
     }
