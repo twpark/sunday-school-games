@@ -5,19 +5,686 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Gospel Runner - Sunday School Games</title>
   <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .game-canvas-wrap {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 16px;
+      touch-action: none;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      border-radius: 16px;
+      background: #87CEEB;
+    }
+
+    .game-hud {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      box-shadow: var(--card-shadow);
+      font-size: 0.85rem;
+    }
+
+    .game-hud .hud-score {
+      font-weight: 700;
+      color: var(--feet-color);
+      font-family: 'Jua', sans-serif;
+      font-size: 1.1rem;
+    }
+
+    .game-hud .hud-distance {
+      color: #95a5a6;
+    }
+
+    .game-hud .hud-lives {
+      font-size: 1rem;
+    }
+
+    .start-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      border-radius: 16px;
+    }
+
+    .start-overlay h3 {
+      color: #fff;
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+    }
+
+    .start-overlay p {
+      color: rgba(255,255,255,0.8);
+      font-size: 0.85rem;
+      margin-bottom: 20px;
+    }
+
+    .start-overlay .play-btn {
+      padding: 14px 40px;
+      border: none;
+      border-radius: 14px;
+      background: var(--feet-color);
+      color: #fff;
+      font-size: 1.1rem;
+      font-family: 'Jua', sans-serif;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(46,204,113,0.4);
+    }
+
+    .start-overlay .play-btn:active { transform: scale(0.95); }
+
+    .gameover-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    .gameover-overlay .go-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px 24px;
+      text-align: center;
+      width: 85%;
+      max-width: 300px;
+    }
+
+    .gameover-overlay .go-emoji { font-size: 3rem; margin-bottom: 12px; }
+    .gameover-overlay .go-title { font-size: 1.3rem; font-family: 'Jua', sans-serif; margin-bottom: 8px; }
+    .gameover-overlay .go-score { font-size: 2rem; font-weight: 700; color: var(--feet-color); margin: 8px 0; }
+    .gameover-overlay .go-msg { font-size: 0.85rem; color: #7f8c8d; line-height: 1.5; margin-bottom: 16px; }
+
+    .gameover-overlay .go-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .gameover-overlay .retry-btn {
+      background: var(--feet-color);
+    }
+
+    .verse-banner {
+      background: #fff;
+      border-radius: 12px;
+      padding: 14px 16px;
+      box-shadow: var(--card-shadow);
+      text-align: center;
+    }
+
+    .verse-banner .verse-text {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #555;
+    }
+
+    .verse-banner .verse-ref {
+      font-size: 0.78rem;
+      color: var(--feet-color);
+      margin-top: 6px;
+      font-weight: 700;
+    }
+
+    .controls-hint {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #bdc3c7;
+      margin-top: 8px;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <div class="game-header">
-      <a href="../../index.html" class="back-btn">←</a>
+      <a href="../../index.html" class="back-btn">&larr;</a>
       <h2>👟 Gospel Runner</h2>
     </div>
-    <div class="quiz-card" style="text-align:center; padding:60px 20px;">
-      <div style="font-size:4rem; margin-bottom:20px;">🚧</div>
-      <h3>Coming Soon!</h3>
-      <p style="margin-top:12px; color:#95a5a6;">복음의 발로 달려가는 러너 게임이 곧 찾아옵니다!</p>
-      <a href="../../index.html" class="home-btn" style="margin-top:24px;">홈으로 돌아가기 🏠</a>
+
+    <div class="game-hud" id="game-hud" style="display:none;">
+      <span class="hud-score">⭐ <span id="hud-score">0</span></span>
+      <span class="hud-distance" id="hud-distance">0m</span>
+      <span class="hud-lives" id="hud-lives">❤️❤️❤️</span>
+    </div>
+
+    <div class="game-canvas-wrap" id="canvas-wrap">
+      <canvas id="game-canvas" width="448" height="400"></canvas>
+
+      <div class="start-overlay" id="start-overlay">
+        <h3>👟 Gospel Runner</h3>
+        <p>복음의 발로 달려가세요!</p>
+        <button class="play-btn" onclick="startGame()">달리기 시작! 🏃</button>
+      </div>
+
+      <div class="gameover-overlay" id="gameover-overlay">
+        <div class="go-card">
+          <div class="go-emoji" id="go-emoji"></div>
+          <div class="go-title" id="go-title"></div>
+          <div class="go-score" id="go-score"></div>
+          <div class="go-msg" id="go-msg"></div>
+          <div class="go-btns">
+            <button class="retry-btn" onclick="startGame()">다시 달리기! 🔄</button>
+            <a href="../../index.html" class="home-btn">홈으로 돌아가기 🏠</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-hint">탭/클릭: 점프 · 길게 누르기: 높이 점프</div>
+
+    <div class="verse-banner" style="margin-top:12px;">
+      <div class="verse-text">"좋은 소식을 전하며 평화를 알리는 자의 발이 산 위에서 얼마나 아름다운가"</div>
+      <div class="verse-ref">— 이사야 52:7</div>
     </div>
   </div>
+
+  <script>
+    const canvas = document.getElementById('game-canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Scale canvas for sharp rendering
+    const W = 448, H = 400;
+    canvas.width = W;
+    canvas.height = H;
+
+    // Game constants
+    const GROUND_Y = H - 60;
+    const GRAVITY = 0.6;
+    const JUMP_FORCE = -11;
+    const HIGH_JUMP_FORCE = -14;
+    const BASE_SPEED = 3;
+
+    // Game state
+    let gameRunning = false;
+    let gameOver = false;
+    let score = 0;
+    let distance = 0;
+    let lives = 3;
+    let speed = BASE_SPEED;
+    let frameCount = 0;
+    let jumpHeld = false;
+    let jumpTimer = 0;
+
+    // Player
+    const player = {
+      x: 60,
+      y: GROUND_Y,
+      w: 32,
+      h: 40,
+      vy: 0,
+      onGround: true,
+      running: 0
+    };
+
+    // Collections & obstacles
+    let items = [];
+    let obstacles = [];
+    let particles = [];
+    let clouds = [];
+    let bgBuildings = [];
+
+    // Item types
+    const ITEM_TYPES = [
+      { emoji: '📜', name: '복음', points: 10 },
+      { emoji: '🍞', name: '빵', points: 15 },
+      { emoji: '💧', name: '물', points: 10 },
+      { emoji: '👕', name: '옷', points: 15 },
+      { emoji: '⭐', name: '별', points: 20 },
+      { emoji: '✝️', name: '십자가', points: 25 }
+    ];
+
+    const OBSTACLE_TYPES = [
+      { emoji: '🪨', name: '바위', w: 30, h: 30 },
+      { emoji: '🌵', name: '가시', w: 25, h: 40 },
+      { emoji: '🔥', name: '불', w: 28, h: 35 }
+    ];
+
+    const PERSON_EMOJIS = ['👦', '👧', '👨', '👩', '👴', '👵', '🧒'];
+
+    // Verses shown on milestone
+    const VERSES = [
+      { text: "믿음은 들음에서 나며", ref: "로마서 10:17" },
+      { text: "아름다운 발이여!", ref: "이사야 52:7" },
+      { text: "너희는 온 천하에 다니며 복음을 전파하라", ref: "마가복음 16:15" },
+      { text: "내가 너희를 사람을 낚는 어부가 되게 하리라", ref: "마태복음 4:19" },
+      { text: "선한 사마리아인처럼 이웃을 사랑하라", ref: "누가복음 10:37" },
+      { text: "주린 자에게 먹을 것을 주었느니라", ref: "마태복음 25:35" }
+    ];
+
+    let currentVerse = 0;
+    let verseDisplay = { text: '', alpha: 0, timer: 0 };
+    let people = [];
+
+    function initClouds() {
+      clouds = [];
+      for (let i = 0; i < 5; i++) {
+        clouds.push({
+          x: Math.random() * W,
+          y: 20 + Math.random() * 80,
+          size: 20 + Math.random() * 30,
+          speed: 0.2 + Math.random() * 0.3
+        });
+      }
+    }
+
+    function initBuildings() {
+      bgBuildings = [];
+      for (let i = 0; i < 8; i++) {
+        bgBuildings.push({
+          x: i * 70,
+          w: 30 + Math.random() * 30,
+          h: 40 + Math.random() * 60,
+          color: ['#dfe6e9', '#b2bec3', '#636e72'][Math.floor(Math.random() * 3)]
+        });
+      }
+    }
+
+    function spawnItem() {
+      const type = ITEM_TYPES[Math.floor(Math.random() * ITEM_TYPES.length)];
+      items.push({
+        x: W + 20,
+        y: GROUND_Y - 50 - Math.random() * 80,
+        ...type,
+        collected: false
+      });
+    }
+
+    function spawnObstacle() {
+      const type = OBSTACLE_TYPES[Math.floor(Math.random() * OBSTACLE_TYPES.length)];
+      obstacles.push({
+        x: W + 20,
+        y: GROUND_Y - type.h + 5,
+        ...type
+      });
+    }
+
+    function spawnPerson() {
+      people.push({
+        x: W + 20,
+        y: GROUND_Y - 35,
+        emoji: PERSON_EMOJIS[Math.floor(Math.random() * PERSON_EMOJIS.length)],
+        helped: false,
+        showHeart: 0
+      });
+    }
+
+    function addParticles(x, y, color, count) {
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x, y,
+          vx: (Math.random() - 0.5) * 4,
+          vy: -Math.random() * 4,
+          life: 30,
+          color,
+          size: 3 + Math.random() * 3
+        });
+      }
+    }
+
+    function jump(high) {
+      if (player.onGround) {
+        player.vy = high ? HIGH_JUMP_FORCE : JUMP_FORCE;
+        player.onGround = false;
+      }
+    }
+
+    function startGame() {
+      gameRunning = true;
+      gameOver = false;
+      score = 0;
+      distance = 0;
+      lives = 3;
+      speed = BASE_SPEED;
+      frameCount = 0;
+      currentVerse = 0;
+      verseDisplay = { text: '', alpha: 0, timer: 0 };
+
+      player.y = GROUND_Y;
+      player.vy = 0;
+      player.onGround = true;
+      player.running = 0;
+
+      items = [];
+      obstacles = [];
+      particles = [];
+      people = [];
+
+      initClouds();
+      initBuildings();
+
+      document.getElementById('start-overlay').style.display = 'none';
+      document.getElementById('gameover-overlay').style.display = 'none';
+      document.getElementById('game-hud').style.display = 'flex';
+
+      updateHUD();
+      gameLoop();
+    }
+
+    function updateHUD() {
+      document.getElementById('hud-score').textContent = score;
+      document.getElementById('hud-distance').textContent = Math.floor(distance) + 'm';
+      let hearts = '';
+      for (let i = 0; i < 3; i++) hearts += i < lives ? '❤️' : '🖤';
+      document.getElementById('hud-lives').textContent = hearts;
+    }
+
+    function checkCollision(a, b) {
+      return a.x < b.x + (b.w || 24) &&
+             a.x + a.w > b.x &&
+             a.y < b.y + (b.h || 24) &&
+             a.y + a.h > b.y;
+    }
+
+    function update() {
+      frameCount++;
+      distance += speed * 0.05;
+      speed = BASE_SPEED + Math.floor(distance / 50) * 0.3;
+      if (speed > 7) speed = 7;
+
+      // Player physics
+      player.vy += GRAVITY;
+      player.y += player.vy;
+      if (player.y >= GROUND_Y) {
+        player.y = GROUND_Y;
+        player.vy = 0;
+        player.onGround = true;
+      }
+      player.running++;
+
+      // Spawn logic
+      if (frameCount % Math.max(60, 100 - Math.floor(distance)) === 0) spawnItem();
+      if (frameCount % Math.max(80, 130 - Math.floor(distance)) === 0) spawnObstacle();
+      if (frameCount % 200 === 0) spawnPerson();
+
+      // Update items
+      items = items.filter(item => {
+        item.x -= speed;
+        if (!item.collected && checkCollision(player, { x: item.x, y: item.y, w: 24, h: 24 })) {
+          item.collected = true;
+          score += item.points;
+          addParticles(item.x, item.y, '#f1c40f', 6);
+
+          // Check verse milestone
+          if (score > 0 && score % 50 === 0 && currentVerse < VERSES.length) {
+            verseDisplay = { ...VERSES[currentVerse], alpha: 1, timer: 120 };
+            currentVerse++;
+          }
+        }
+        return item.x > -30 && !item.collected;
+      });
+
+      // Update obstacles
+      obstacles = obstacles.filter(obs => {
+        obs.x -= speed;
+        if (checkCollision(player, obs)) {
+          lives--;
+          addParticles(obs.x, obs.y, '#e74c3c', 8);
+          obs.x = -100; // remove
+          if (lives <= 0) {
+            endGame();
+            return false;
+          }
+        }
+        return obs.x > -40;
+      });
+
+      // Update people
+      people = people.filter(p => {
+        p.x -= speed * 0.7;
+        if (!p.helped && checkCollision(player, { x: p.x, y: p.y, w: 28, h: 35 })) {
+          p.helped = true;
+          p.showHeart = 40;
+          score += 30;
+          addParticles(p.x + 14, p.y, '#e74c3c', 5);
+        }
+        if (p.showHeart > 0) p.showHeart--;
+        return p.x > -40;
+      });
+
+      // Update particles
+      particles = particles.filter(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.1;
+        p.life--;
+        return p.life > 0;
+      });
+
+      // Update clouds
+      clouds.forEach(c => {
+        c.x -= c.speed;
+        if (c.x < -c.size) c.x = W + c.size;
+      });
+
+      // Update buildings
+      bgBuildings.forEach(b => {
+        b.x -= speed * 0.3;
+        if (b.x < -b.w) b.x = W + Math.random() * 40;
+      });
+
+      // Verse display
+      if (verseDisplay.timer > 0) {
+        verseDisplay.timer--;
+        if (verseDisplay.timer < 20) verseDisplay.alpha = verseDisplay.timer / 20;
+      }
+
+      updateHUD();
+    }
+
+    function draw() {
+      // Sky gradient
+      const skyGrad = ctx.createLinearGradient(0, 0, 0, H);
+      skyGrad.addColorStop(0, '#87CEEB');
+      skyGrad.addColorStop(0.7, '#E0F7FA');
+      skyGrad.addColorStop(1, '#A5D6A7');
+      ctx.fillStyle = skyGrad;
+      ctx.fillRect(0, 0, W, H);
+
+      // Clouds
+      ctx.fillStyle = 'rgba(255,255,255,0.7)';
+      clouds.forEach(c => {
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, c.size, 0, Math.PI * 2);
+        ctx.arc(c.x + c.size * 0.6, c.y - c.size * 0.2, c.size * 0.7, 0, Math.PI * 2);
+        ctx.arc(c.x - c.size * 0.4, c.y + c.size * 0.1, c.size * 0.6, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Background buildings
+      bgBuildings.forEach(b => {
+        ctx.fillStyle = b.color;
+        ctx.fillRect(b.x, GROUND_Y - b.h + 10, b.w, b.h);
+        // Windows
+        ctx.fillStyle = 'rgba(255,255,200,0.5)';
+        for (let row = 0; row < Math.floor(b.h / 18); row++) {
+          for (let col = 0; col < Math.floor(b.w / 14); col++) {
+            ctx.fillRect(b.x + 4 + col * 14, GROUND_Y - b.h + 14 + row * 18, 6, 8);
+          }
+        }
+      });
+
+      // Ground
+      ctx.fillStyle = '#8BC34A';
+      ctx.fillRect(0, GROUND_Y + player.h, W, H - GROUND_Y - player.h);
+
+      // Ground detail
+      ctx.fillStyle = '#689F38';
+      for (let i = 0; i < W; i += 20) {
+        const offset = (frameCount * speed + i) % W;
+        ctx.fillRect(W - offset, GROUND_Y + player.h, 10, 3);
+      }
+
+      // Path
+      ctx.fillStyle = '#D7CCC8';
+      ctx.fillRect(0, GROUND_Y + player.h - 5, W, 15);
+      ctx.fillStyle = '#BCAAA4';
+      for (let i = 0; i < W; i += 30) {
+        const offset = (frameCount * speed + i) % W;
+        ctx.fillRect(W - offset, GROUND_Y + player.h - 2, 15, 3);
+      }
+
+      // People
+      ctx.font = '28px serif';
+      ctx.textAlign = 'center';
+      people.forEach(p => {
+        ctx.globalAlpha = p.helped ? 0.5 : 1;
+        ctx.fillText(p.emoji, p.x + 14, p.y + 28);
+        if (p.showHeart > 0) {
+          ctx.globalAlpha = p.showHeart / 40;
+          ctx.font = '18px serif';
+          ctx.fillText('❤️', p.x + 14, p.y - 10 + (40 - p.showHeart) * 0.5);
+          ctx.font = '28px serif';
+        }
+        ctx.globalAlpha = 1;
+      });
+
+      // Items
+      ctx.font = '22px serif';
+      items.forEach(item => {
+        ctx.fillText(item.emoji, item.x + 4, item.y + 20);
+      });
+
+      // Obstacles
+      ctx.font = '26px serif';
+      obstacles.forEach(obs => {
+        ctx.fillText(obs.emoji, obs.x, obs.y + obs.h - 2);
+      });
+
+      // Player (running character)
+      const legOffset = player.onGround ? Math.sin(player.running * 0.3) * 5 : 3;
+      ctx.font = '34px serif';
+      ctx.fillText('🏃', player.x, player.y + player.h - 4 + (player.onGround ? 0 : -2));
+
+      // Particles
+      particles.forEach(p => {
+        ctx.globalAlpha = p.life / 30;
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      });
+
+      // Verse display
+      if (verseDisplay.timer > 0) {
+        ctx.globalAlpha = verseDisplay.alpha;
+        ctx.fillStyle = 'rgba(0,0,0,0.6)';
+        ctx.fillRect(20, H / 2 - 35, W - 40, 60);
+        ctx.fillStyle = '#fff';
+        ctx.font = '14px "Noto Sans KR", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(verseDisplay.text, W / 2, H / 2 - 8);
+        ctx.font = '11px "Jua", sans-serif';
+        ctx.fillStyle = '#f1c40f';
+        ctx.fillText('— ' + verseDisplay.ref, W / 2, H / 2 + 14);
+        ctx.textAlign = 'start';
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    function gameLoop() {
+      if (!gameRunning || gameOver) return;
+      update();
+      draw();
+      requestAnimationFrame(gameLoop);
+    }
+
+    function endGame() {
+      gameOver = true;
+      gameRunning = false;
+
+      let emoji, title, msg;
+      if (score >= 200) {
+        emoji = '🌟'; title = '복음의 전사!';
+        msg = '아름다운 발로 복음을 전하며 많은 사람을 도왔어요! "주의 말씀을 확인하는 표적이 따르더라" (막 16:20)';
+      } else if (score >= 100) {
+        emoji = '😊'; title = '열심히 달렸어요!';
+        msg = '복음을 전하며 사람들을 도왔어요. 더 멀리 달려보세요!';
+      } else {
+        emoji = '💪'; title = '다시 달려봐요!';
+        msg = '복음의 발로 더 멀리 달려가서 많은 사람을 만나보세요!';
+      }
+
+      document.getElementById('go-emoji').textContent = emoji;
+      document.getElementById('go-title').textContent = title;
+      document.getElementById('go-score').textContent = '⭐ ' + score + '점 · ' + Math.floor(distance) + 'm';
+      document.getElementById('go-msg').textContent = msg;
+      document.getElementById('gameover-overlay').style.display = 'flex';
+    }
+
+    // Controls
+    let pressStart = 0;
+
+    canvas.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      if (!gameRunning) return;
+      pressStart = Date.now();
+    });
+
+    canvas.addEventListener('mouseup', (e) => {
+      e.preventDefault();
+      if (!gameRunning) return;
+      const held = Date.now() - pressStart;
+      jump(held > 200);
+    });
+
+    canvas.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      if (!gameRunning) return;
+      pressStart = Date.now();
+    });
+
+    canvas.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      if (!gameRunning) return;
+      const held = Date.now() - pressStart;
+      jump(held > 200);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' || e.code === 'ArrowUp') {
+        e.preventDefault();
+        if (!gameRunning) return;
+        if (!jumpHeld) {
+          pressStart = Date.now();
+          jumpHeld = true;
+        }
+      }
+    });
+
+    document.addEventListener('keyup', (e) => {
+      if (e.code === 'Space' || e.code === 'ArrowUp') {
+        e.preventDefault();
+        if (!gameRunning) return;
+        jumpHeld = false;
+        const held = Date.now() - pressStart;
+        jump(held > 200);
+      }
+    });
+
+    // Initial draw
+    initClouds();
+    initBuildings();
+    draw();
+  </script>
 </body>
 </html>

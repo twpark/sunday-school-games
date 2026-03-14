@@ -5,19 +5,698 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Ears of Wisdom - Sunday School Games</title>
   <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .house-scene {
+      position: relative;
+      height: 180px;
+      background: linear-gradient(180deg, #87CEEB 60%, #DEB887 100%);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .house-scene .ground-rock {
+      position: absolute;
+      bottom: 0;
+      left: 10%;
+      width: 35%;
+      height: 40px;
+      background: linear-gradient(180deg, #8B7355, #6B5B45);
+      border-radius: 8px 8px 0 0;
+    }
+
+    .house-scene .ground-sand {
+      position: absolute;
+      bottom: 0;
+      right: 10%;
+      width: 35%;
+      height: 30px;
+      background: linear-gradient(180deg, #F4D03F, #DAA520);
+      border-radius: 8px 8px 0 0;
+    }
+
+    .house-scene .house {
+      position: absolute;
+      bottom: 35px;
+      width: 60px;
+      text-align: center;
+      transition: all 0.5s;
+    }
+
+    .house-scene .house.rock-house {
+      left: calc(10% + 17.5% - 30px);
+    }
+
+    .house-scene .house.sand-house {
+      right: calc(10% + 17.5% - 30px);
+    }
+
+    .house-scene .house .house-icon {
+      font-size: 2.5rem;
+      transition: transform 0.5s;
+    }
+
+    .house-scene .house.sand-house.shaking .house-icon {
+      animation: houseShake 0.5s;
+    }
+
+    .house-scene .house.rock-house.growing .house-icon {
+      animation: houseGrow 0.5s;
+    }
+
+    .house-scene .label {
+      position: absolute;
+      bottom: 4px;
+      font-family: 'Jua', sans-serif;
+      font-size: 0.7rem;
+      color: #fff;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+
+    .house-scene .label.rock-label {
+      left: 10%;
+      width: 35%;
+      text-align: center;
+    }
+
+    .house-scene .label.sand-label {
+      right: 10%;
+      width: 35%;
+      text-align: center;
+    }
+
+    .house-scene .rain {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .house-scene .rain.active {
+      opacity: 1;
+    }
+
+    .house-scene .raindrop {
+      position: absolute;
+      width: 2px;
+      height: 12px;
+      background: rgba(255,255,255,0.6);
+      animation: rainFall 0.6s linear infinite;
+    }
+
+    @keyframes rainFall {
+      to { transform: translateY(200px); }
+    }
+
+    @keyframes houseShake {
+      0%, 100% { transform: rotate(0); }
+      20% { transform: rotate(-8deg); }
+      40% { transform: rotate(8deg); }
+      60% { transform: rotate(-5deg); }
+      80% { transform: rotate(5deg); }
+    }
+
+    @keyframes houseGrow {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    .wisdom-meter {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px 14px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 16px;
+    }
+
+    .wisdom-meter .meter-label {
+      font-family: 'Jua', sans-serif;
+      font-size: 0.8rem;
+      color: var(--ears-color);
+      white-space: nowrap;
+    }
+
+    .wisdom-meter .meter-track {
+      flex: 1;
+      height: 10px;
+      background: #ecf0f1;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .wisdom-meter .meter-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #e74c3c, #f39c12, #27ae60);
+      border-radius: 5px;
+      transition: width 0.4s ease;
+    }
+
+    .statement-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px 20px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 16px;
+      text-align: center;
+      min-height: 160px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transition: border-color 0.3s;
+      border: 3px solid transparent;
+    }
+
+    .statement-card .speaker {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .statement-card .statement-text {
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .statement-card .source {
+      font-size: 0.78rem;
+      color: #95a5a6;
+      font-style: italic;
+    }
+
+    .judge-btns {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .judge-btn {
+      flex: 1;
+      padding: 16px 12px;
+      border: 3px solid;
+      border-radius: 14px;
+      background: #fff;
+      font-family: 'Jua', sans-serif;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .judge-btn:active { transform: scale(0.96); }
+
+    .judge-btn .btn-icon { font-size: 1.8rem; }
+
+    .judge-btn.rock-btn {
+      border-color: #9b59b6;
+      color: #9b59b6;
+    }
+
+    .judge-btn.rock-btn:active { background: #f3e5f5; }
+
+    .judge-btn.sand-btn {
+      border-color: #e67e22;
+      color: #e67e22;
+    }
+
+    .judge-btn.sand-btn:active { background: #fef5e7; }
+
+    .judge-btn:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    .feedback-toast {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      background: #fff;
+      border-radius: 20px;
+      padding: 24px 28px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+      text-align: center;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s;
+      max-width: 320px;
+      width: 85%;
+    }
+
+    .feedback-toast.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .feedback-toast.correct { border: 3px solid #27ae60; }
+    .feedback-toast.wrong { border: 3px solid #e74c3c; }
+
+    .feedback-toast .toast-emoji { font-size: 2.5rem; margin-bottom: 8px; }
+    .feedback-toast .toast-text { font-size: 0.88rem; line-height: 1.6; color: #555; }
+    .feedback-toast .toast-verse { font-size: 0.78rem; color: #95a5a6; margin-top: 8px; font-style: italic; }
+
+    .overlay-bg {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 99;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .overlay-bg.show { opacity: 1; }
+
+    .result-screen .retry-btn { background: var(--ears-color); }
+    .result-screen .result-score { color: var(--ears-color); }
+
+    .next-btn { background: var(--ears-color) !important; }
+
+    .ear-dots {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      margin-bottom: 12px;
+    }
+
+    .ear-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ecf0f1;
+      transition: all 0.3s;
+      font-size: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ear-dot.correct { background: #27ae60; }
+    .ear-dot.wrong { background: #e74c3c; }
+  </style>
 </head>
 <body>
   <div class="container">
     <div class="game-header">
-      <a href="../../index.html" class="back-btn">←</a>
+      <a href="../../index.html" class="back-btn">&larr;</a>
       <h2>👂 Ears of Wisdom</h2>
     </div>
-    <div class="quiz-card" style="text-align:center; padding:60px 20px;">
-      <div style="font-size:4rem; margin-bottom:20px;">🚧</div>
-      <h3>Coming Soon!</h3>
-      <p style="margin-top:12px; color:#95a5a6;">하나님의 말씀을 분별하는 게임이 곧 찾아옵니다!</p>
-      <a href="../../index.html" class="home-btn" style="margin-top:24px;">홈으로 돌아가기 🏠</a>
+
+    <div class="score-bar">
+      <span class="score" style="color:var(--ears-color);">점수: <strong id="score">0</strong></span>
+      <span class="progress" id="progress">1 / 12</span>
+    </div>
+
+    <div id="game-area">
+      <div class="house-scene" id="house-scene">
+        <div class="rain" id="rain"></div>
+        <div class="house rock-house" id="rock-house">
+          <div class="house-icon">🏠</div>
+        </div>
+        <div class="house sand-house" id="sand-house">
+          <div class="house-icon">🏚️</div>
+        </div>
+        <div class="ground-rock"></div>
+        <div class="ground-sand"></div>
+        <div class="label rock-label">⛰️ 반석</div>
+        <div class="label sand-label">🏖️ 모래</div>
+      </div>
+
+      <div class="wisdom-meter">
+        <span class="meter-label">👂 분별력</span>
+        <div class="meter-track">
+          <div class="meter-fill" id="meter-fill" style="width:50%;"></div>
+        </div>
+      </div>
+
+      <div class="ear-dots" id="ear-dots"></div>
+
+      <div class="statement-card" id="statement-card">
+        <div class="speaker" id="speaker"></div>
+        <div class="statement-text" id="statement-text"></div>
+        <div class="source" id="source"></div>
+      </div>
+
+      <div class="judge-btns">
+        <button class="judge-btn rock-btn" onclick="judge('truth')">
+          <span class="btn-icon">⛰️</span>
+          참된 가르침
+        </button>
+        <button class="judge-btn sand-btn" onclick="judge('false')">
+          <span class="btn-icon">🏖️</span>
+          거짓 가르침
+        </button>
+      </div>
+    </div>
+
+    <div id="result-area" style="display:none;">
+      <div class="result-screen">
+        <div class="emoji" id="result-emoji"></div>
+        <h2 id="result-title"></h2>
+        <div class="result-score" id="result-score"></div>
+        <p class="result-msg" id="result-msg"></p>
+        <div class="btn-group">
+          <button class="retry-btn" onclick="startGame()">다시 도전! 🔄</button>
+          <a href="../../index.html" class="home-btn">홈으로 돌아가기 🏠</a>
+        </div>
+      </div>
+
+      <div class="quiz-card" style="margin-top:16px; text-align:left;">
+        <h3 style="margin-bottom:12px;">📖 오늘의 말씀</h3>
+        <p style="font-size:0.9rem; line-height:1.7; color:#555;">
+          "네 귀를 기울여 지혜를 얻으며 네 마음을 기울여 명철을 얻으라"
+          <br><strong>— 잠언 2:2</strong>
+        </p>
+        <p style="font-size:0.85rem; line-height:1.7; color:#555; margin-top:12px;">
+          "명철한 자의 마음은 지식을 얻고 지혜로운 자의 귀는 지식을 구하느니라"
+          <br><strong>— 잠언 18:15</strong>
+        </p>
+      </div>
     </div>
   </div>
+
+  <div class="overlay-bg" id="overlay-bg"></div>
+  <div class="feedback-toast" id="feedback-toast">
+    <div class="toast-emoji" id="toast-emoji"></div>
+    <div class="toast-text" id="toast-text"></div>
+    <div class="toast-verse" id="toast-verse"></div>
+  </div>
+
+  <script>
+    const allStatements = [
+      // 참된 가르침 (truth)
+      {
+        speaker: "📖",
+        text: "하나님의 말씀을 듣고 행하는 사람은 반석 위에 집을 지은 사람과 같아요.",
+        type: "truth",
+        feedback: "예수님이 직접 가르치신 말씀이에요! 듣기만 하는 것이 아니라 실천하는 것이 중요해요.",
+        verse: "마태복음 7:24",
+        source: "예수님의 가르침"
+      },
+      {
+        speaker: "📖",
+        text: "좋은 땅에 뿌려진 씨앗은 말씀을 듣고 깨닫고 열매를 맺는 사람이에요.",
+        type: "truth",
+        feedback: "씨 뿌리는 자의 비유에서 좋은 땅은 말씀을 귀 기울여 듣고 실천하는 사람이에요!",
+        verse: "누가복음 8:15",
+        source: "씨 뿌리는 자의 비유"
+      },
+      {
+        speaker: "📖",
+        text: "하나님은 모든 사람을 사랑하시고, 누구든 믿는 자에게 영생을 주세요.",
+        type: "truth",
+        feedback: "요한복음 3:16의 핵심이에요! 하나님의 사랑은 모든 사람을 향해 있어요.",
+        verse: "요한복음 3:16",
+        source: "성경의 핵심"
+      },
+      {
+        speaker: "📖",
+        text: "지혜의 시작은 여호와를 경외하는 것이에요.",
+        type: "truth",
+        feedback: "하나님을 먼저 알고 존경하는 것이 모든 지혜의 출발점이에요!",
+        verse: "잠언 9:10",
+        source: "잠언의 가르침"
+      },
+      {
+        speaker: "📖",
+        text: "서로 사랑하라. 이것이 내 계명이다.",
+        type: "truth",
+        feedback: "예수님의 새 계명이에요. 서로 사랑하는 것이 하나님의 뜻이에요!",
+        verse: "요한복음 13:34",
+        source: "예수님의 계명"
+      },
+      {
+        speaker: "📖",
+        text: "네 이웃을 네 자신같이 사랑하라.",
+        type: "truth",
+        feedback: "두 번째로 큰 계명이에요. 다른 사람을 내 자신처럼 소중히 여기라는 뜻이에요!",
+        verse: "마태복음 22:39",
+        source: "예수님의 가르침"
+      },
+      {
+        speaker: "📖",
+        text: "귀 있는 자는 들을지어다! 성령이 교회들에게 하시는 말씀을 들으라.",
+        type: "truth",
+        feedback: "하나님의 말씀에 귀를 기울이라는 뜻이에요. 듣는 것이 분별의 시작이에요!",
+        verse: "요한계시록 2:7",
+        source: "요한계시록"
+      },
+      {
+        speaker: "📖",
+        text: "비가 내리고 바람이 불어도 반석 위의 집은 무너지지 않아요.",
+        type: "truth",
+        feedback: "하나님 말씀 위에 세운 삶은 어떤 시련이 와도 흔들리지 않아요!",
+        verse: "마태복음 7:25",
+        source: "반석 위의 집 비유"
+      },
+      // 거짓 가르침 (false)
+      {
+        speaker: "🐍",
+        text: "하나님 말씀은 듣기만 하면 돼. 꼭 실천할 필요는 없어.",
+        type: "false",
+        feedback: "듣기만 하고 행하지 않으면 모래 위에 집을 짓는 것과 같아요! 듣고 행해야 해요.",
+        verse: "마태복음 7:26",
+        source: "잘못된 생각"
+      },
+      {
+        speaker: "🐍",
+        text: "내가 잘나서 이렇게 됐어. 하나님 도움은 필요 없어.",
+        type: "false",
+        feedback: "교만은 넘어짐의 앞잡이에요. 모든 좋은 것은 하나님에게서 오는 거예요!",
+        verse: "잠언 16:18",
+        source: "교만한 생각"
+      },
+      {
+        speaker: "🐍",
+        text: "귀가 가려워서 듣기 좋은 말만 골라 들으면 돼.",
+        type: "false",
+        feedback: "디모데후서에서 경고한 바로 그 모습이에요! 진리보다 듣기 좋은 말을 좋아하면 안 돼요.",
+        verse: "디모데후서 4:3-4",
+        source: "거짓된 태도"
+      },
+      {
+        speaker: "🐍",
+        text: "착한 일만 많이 하면 하나님을 안 믿어도 괜찮아.",
+        type: "false",
+        feedback: "착한 일도 중요하지만, 구원은 믿음으로 받는 하나님의 선물이에요!",
+        verse: "에베소서 2:8-9",
+        source: "잘못된 생각"
+      },
+      {
+        speaker: "🐍",
+        text: "성경은 옛날 이야기일 뿐이야. 지금은 상관없어.",
+        type: "false",
+        feedback: "하나님의 말씀은 영원히 살아있고 힘이 있어요! 오늘도 우리에게 말씀하세요.",
+        verse: "히브리서 4:12",
+        source: "잘못된 생각"
+      },
+      {
+        speaker: "🐍",
+        text: "내 뜻대로 사는 게 가장 좋아. 하나님 뜻은 재미없어.",
+        type: "false",
+        feedback: "내 뜻대로 사는 것은 모래 위의 집이에요. 하나님의 뜻이 가장 좋은 길이에요!",
+        verse: "잠언 14:12",
+        source: "거짓된 유혹"
+      },
+      {
+        speaker: "🐍",
+        text: "나쁜 친구를 따라가도 괜찮아. 나만 안 변하면 되지.",
+        type: "false",
+        feedback: "나쁜 친구와 함께하면 결국 영향을 받게 돼요. 귀를 기울이는 대상이 중요해요!",
+        verse: "잠언 13:20",
+        source: "위험한 생각"
+      },
+      {
+        speaker: "🐍",
+        text: "기도 안 해도 돼. 하나님은 어차피 다 아시잖아.",
+        type: "false",
+        feedback: "하나님이 다 아시지만, 기도는 하나님과 대화하는 소중한 시간이에요!",
+        verse: "데살로니가전서 5:17",
+        source: "잘못된 핑계"
+      },
+      {
+        speaker: "🐍",
+        text: "남들이 다 하니까 괜찮아. 다수가 항상 옳은 거야.",
+        type: "false",
+        feedback: "많은 사람이 하는 것이 항상 옳은 것은 아니에요. 하나님의 말씀이 기준이에요!",
+        verse: "로마서 12:2",
+        source: "세상의 유혹"
+      }
+    ];
+
+    let statements = [];
+    let current = 0;
+    let score = 0;
+    let wisdomLevel = 50;
+    let results = [];
+    let isProcessing = false;
+    const TOTAL = 12;
+
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function initRain() {
+      const rain = document.getElementById('rain');
+      rain.innerHTML = '';
+      for (let i = 0; i < 20; i++) {
+        const drop = document.createElement('div');
+        drop.className = 'raindrop';
+        drop.style.left = Math.random() * 100 + '%';
+        drop.style.animationDelay = Math.random() * 0.6 + 's';
+        drop.style.top = -Math.random() * 20 + 'px';
+        rain.appendChild(drop);
+      }
+    }
+
+    function startGame() {
+      const truths = shuffle(allStatements.filter(s => s.type === 'truth')).slice(0, 6);
+      const falses = shuffle(allStatements.filter(s => s.type === 'false')).slice(0, 6);
+      statements = shuffle([...truths, ...falses]);
+      current = 0;
+      score = 0;
+      wisdomLevel = 50;
+      results = [];
+      isProcessing = false;
+      document.getElementById('game-area').style.display = 'block';
+      document.getElementById('result-area').style.display = 'none';
+      initRain();
+      updateDots();
+      renderStatement();
+    }
+
+    function updateDots() {
+      const container = document.getElementById('ear-dots');
+      container.innerHTML = '';
+      for (let i = 0; i < TOTAL; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'ear-dot';
+        if (i < results.length) {
+          dot.classList.add(results[i] ? 'correct' : 'wrong');
+        }
+        container.appendChild(dot);
+      }
+    }
+
+    function renderStatement() {
+      const s = statements[current];
+      document.getElementById('speaker').textContent = s.speaker;
+      document.getElementById('statement-text').textContent = s.text;
+      document.getElementById('source').textContent = s.source;
+      document.getElementById('score').textContent = score;
+      document.getElementById('progress').textContent = (current + 1) + ' / ' + TOTAL;
+      document.getElementById('meter-fill').style.width = wisdomLevel + '%';
+
+      const card = document.getElementById('statement-card');
+      card.style.borderColor = 'transparent';
+
+      document.querySelectorAll('.judge-btn').forEach(b => b.disabled = false);
+    }
+
+    function judge(choice) {
+      if (isProcessing) return;
+      isProcessing = true;
+
+      const s = statements[current];
+      const isCorrect = (choice === 'truth' && s.type === 'truth') || (choice === 'false' && s.type === 'false');
+
+      const card = document.getElementById('statement-card');
+      card.style.borderColor = isCorrect ? '#27ae60' : '#e74c3c';
+
+      document.querySelectorAll('.judge-btn').forEach(b => b.disabled = true);
+
+      if (isCorrect) {
+        score += 10;
+        wisdomLevel = Math.min(100, wisdomLevel + 6);
+        results.push(true);
+        // Rock house grows
+        document.getElementById('rock-house').classList.add('growing');
+        setTimeout(() => document.getElementById('rock-house').classList.remove('growing'), 500);
+      } else {
+        wisdomLevel = Math.max(0, wisdomLevel - 8);
+        results.push(false);
+        // Sand house shakes, rain
+        document.getElementById('sand-house').classList.add('shaking');
+        document.getElementById('rain').classList.add('active');
+        setTimeout(() => {
+          document.getElementById('sand-house').classList.remove('shaking');
+          document.getElementById('rain').classList.remove('active');
+        }, 600);
+      }
+
+      updateDots();
+
+      // Show feedback
+      const toast = document.getElementById('feedback-toast');
+      const bg = document.getElementById('overlay-bg');
+
+      document.getElementById('toast-emoji').textContent = isCorrect ? '✅' : '❌';
+      document.getElementById('toast-text').textContent = s.feedback;
+      document.getElementById('toast-verse').textContent = '📖 ' + s.verse;
+
+      toast.className = 'feedback-toast show ' + (isCorrect ? 'correct' : 'wrong');
+      bg.classList.add('show');
+
+      setTimeout(() => {
+        toast.className = 'feedback-toast';
+        bg.classList.remove('show');
+
+        current++;
+        if (current >= TOTAL) {
+          showResult();
+        } else {
+          renderStatement();
+          isProcessing = false;
+        }
+      }, 2200);
+    }
+
+    function showResult() {
+      document.getElementById('game-area').style.display = 'none';
+      document.getElementById('result-area').style.display = 'block';
+
+      const pct = score / (TOTAL * 10) * 100;
+      let emoji, title, msg;
+
+      if (pct >= 90) {
+        emoji = '🌟'; title = '지혜의 귀를 가졌어요!';
+        msg = '참된 가르침과 거짓 가르침을 정확히 분별하고 있어요! 반석 위에 집을 지은 지혜로운 사람이에요!';
+      } else if (pct >= 70) {
+        emoji = '😊'; title = '잘 듣고 있어요!';
+        msg = '대부분 잘 분별했어요! 조금만 더 귀를 기울이면 완벽해질 거예요.';
+      } else if (pct >= 50) {
+        emoji = '💪'; title = '더 연습해봐요!';
+        msg = '분별하는 귀를 훈련하고 있어요. 하나님 말씀을 더 읽으면 더 잘 분별할 수 있어요!';
+      } else {
+        emoji = '📖'; title = '다시 도전해봐요!';
+        msg = '마태복음 7장의 반석 위의 집 이야기를 읽어보고 다시 도전해보세요!';
+      }
+
+      document.getElementById('result-emoji').textContent = emoji;
+      document.getElementById('result-title').textContent = title;
+      document.getElementById('result-score').textContent = score + ' / ' + (TOTAL * 10);
+      document.getElementById('result-msg').textContent = msg;
+    }
+
+    startGame();
+  </script>
 </body>
 </html>
