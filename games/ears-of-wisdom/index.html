@@ -399,141 +399,113 @@
     const allStatements = [
       // True teachings (truth)
       {
-        speaker: "📖",
         text: "Those who hear God's Word and put it into practice are like a person who built their house on the rock.",
         type: "truth",
         feedback: "This is what Jesus taught directly! It's not enough to just listen—we must also act on it.",
-        verse: "Matthew 7:24",
-        source: "Jesus' teaching"
+        verse: "Matthew 7:24"
       },
       {
-        speaker: "📖",
         text: "The seed on good soil represents those who hear the word, understand it, and bear fruit.",
         type: "truth",
         feedback: "In the Parable of the Sower, the good soil represents those who listen carefully and put God's Word into practice!",
-        verse: "Luke 8:15",
-        source: "Parable of the Sower"
+        verse: "Luke 8:15"
       },
       {
-        speaker: "📖",
         text: "God loves everyone, and gives eternal life to whoever believes.",
         type: "truth",
         feedback: "This is the heart of John 3:16! God's love is for all people.",
-        verse: "John 3:16",
-        source: "Heart of the Bible"
+        verse: "John 3:16"
       },
       {
-        speaker: "📖",
         text: "The beginning of wisdom is the fear of the LORD.",
         type: "truth",
         feedback: "Knowing and revering God first is the starting point of all wisdom!",
-        verse: "Proverbs 9:10",
-        source: "Teaching from Proverbs"
+        verse: "Proverbs 9:10"
       },
       {
-        speaker: "📖",
         text: "Love one another. This is my commandment.",
         type: "truth",
         feedback: "This is Jesus' new commandment. Loving one another is God's will!",
-        verse: "John 13:34",
-        source: "Jesus' commandment"
+        verse: "John 13:34"
       },
       {
-        speaker: "📖",
         text: "Love your neighbor as yourself.",
         type: "truth",
         feedback: "This is the second greatest commandment. It means to value others as much as yourself!",
-        verse: "Matthew 22:39",
-        source: "Jesus' teaching"
+        verse: "Matthew 22:39"
       },
       {
-        speaker: "📖",
         text: "Whoever has ears, let them hear! Hear what the Spirit says to the churches.",
         type: "truth",
         feedback: "This means to pay attention to God's Word. Listening is where discernment begins!",
-        verse: "Revelation 2:7",
-        source: "Revelation"
+        verse: "Revelation 2:7"
       },
       {
-        speaker: "📖",
         text: "The rain came down, the winds blew, but the house on the rock did not fall.",
         type: "truth",
         feedback: "A life built on God's Word will not be shaken by any trial!",
-        verse: "Matthew 7:25",
-        source: "Parable of the house on the rock"
+        verse: "Matthew 7:25"
+      },
+      {
+        text: "If you have faith as small as a mustard seed, nothing will be impossible for you.",
+        type: "truth",
+        feedback: "Even the tiniest faith can move mountains when it's placed in God!",
+        verse: "Matthew 17:20"
       },
       // False teachings (false)
       {
-        speaker: "🐍",
         text: "You just need to hear God's Word. You don't actually need to practice it.",
         type: "false",
         feedback: "Hearing without doing is like building a house on sand! We must hear AND do.",
-        verse: "Matthew 7:26",
-        source: "Wrong thinking"
+        verse: "Matthew 7:26"
       },
       {
-        speaker: "🐍",
         text: "I'm great on my own. I don't need God's help.",
         type: "false",
         feedback: "Pride comes before a fall. Every good thing comes from God!",
-        verse: "Proverbs 16:18",
-        source: "Proud thinking"
+        verse: "Proverbs 16:18"
       },
       {
-        speaker: "🐍",
         text: "Just listen to whatever sounds good and makes you feel comfortable.",
         type: "false",
         feedback: "This is exactly what 2 Timothy warns about! We shouldn't prefer pleasant words over truth.",
-        verse: "2 Timothy 4:3-4",
-        source: "False attitude"
+        verse: "2 Timothy 4:3-4"
       },
       {
-        speaker: "🐍",
         text: "As long as you do good deeds, you don't need to believe in God.",
         type: "false",
         feedback: "Good deeds are important, but salvation is a gift from God received through faith!",
-        verse: "Ephesians 2:8-9",
-        source: "Wrong thinking"
+        verse: "Ephesians 2:8-9"
       },
       {
-        speaker: "🐍",
         text: "The Bible is just an old story. It doesn't matter anymore.",
         type: "false",
         feedback: "God's Word is alive and powerful forever! He still speaks to us today.",
-        verse: "Hebrews 4:12",
-        source: "Wrong thinking"
+        verse: "Hebrews 4:12"
       },
       {
-        speaker: "🐍",
         text: "Living my own way is the best. God's way is boring.",
         type: "false",
         feedback: "Living your own way is like building on sand. God's way is always the best path!",
-        verse: "Proverbs 14:12",
-        source: "False temptation"
+        verse: "Proverbs 14:12"
       },
       {
-        speaker: "🐍",
         text: "It's fine to follow bad friends. I won't change.",
         type: "false",
         feedback: "Bad company will eventually influence you. Who you listen to matters!",
-        verse: "Proverbs 13:20",
-        source: "Dangerous thinking"
+        verse: "Proverbs 13:20"
       },
       {
-        speaker: "🐍",
         text: "You don't need to pray. God knows everything anyway.",
         type: "false",
         feedback: "God does know everything, but prayer is precious time talking with God!",
-        verse: "1 Thessalonians 5:17",
-        source: "Wrong excuse"
+        verse: "1 Thessalonians 5:17"
       },
       {
-        speaker: "🐍",
         text: "Everyone else is doing it, so it must be okay. The majority is always right.",
         type: "false",
         feedback: "What the majority does isn't always right. God's Word is the standard!",
-        verse: "Romans 12:2",
-        source: "Worldly temptation"
+        verse: "Romans 12:2"
       }
     ];
 
@@ -598,9 +570,9 @@
 
     function renderStatement() {
       const s = statements[current];
-      document.getElementById('speaker').textContent = s.speaker;
+      document.getElementById('speaker').textContent = '🗣️';
       document.getElementById('statement-text').textContent = s.text;
-      document.getElementById('source').textContent = s.source;
+      document.getElementById('source').textContent = 'Is this true or false?';
       document.getElementById('score').textContent = score;
       document.getElementById('progress').textContent = (current + 1) + ' / ' + TOTAL;
       document.getElementById('meter-fill').style.width = wisdomLevel + '%';

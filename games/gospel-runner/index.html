@@ -223,6 +223,7 @@
     let frameCount = 0;
     let jumpHeld = false;
     let jumpTimer = 0;
+    let invincible = 0; // invincibility frames after hit
 
     // Player
     const player = {
@@ -357,6 +358,7 @@
       frameCount = 0;
       currentVerse = 0;
       verseDisplay = { text: '', alpha: 0, timer: 0 };
+      invincible = 0;
 
       player.y = GROUND_Y;
       player.vy = 0;
@@ -410,9 +412,12 @@
       }
       player.running++;
 
+      // Invincibility countdown
+      if (invincible > 0) invincible--;
+
       // Spawn logic
       if (frameCount % Math.max(60, 100 - Math.floor(distance)) === 0) spawnItem();
-      if (frameCount % Math.max(80, 130 - Math.floor(distance)) === 0) spawnObstacle();
+      if (frameCount % Math.max(100, 150 - Math.floor(distance)) === 0) spawnObstacle();
       if (frameCount % 200 === 0) spawnPerson();
 
       // Update items
@@ -435,8 +440,9 @@
       // Update obstacles
       obstacles = obstacles.filter(obs => {
         obs.x -= speed;
-        if (checkCollision(player, obs)) {
+        if (invincible <= 0 && checkCollision(player, obs)) {
           lives--;
+          invincible = 90; // ~1.5 seconds of invincibility
           addParticles(obs.x, obs.y, '#e74c3c', 8);
           obs.x = -100; // remove
           if (lives <= 0) {
@@ -569,10 +575,12 @@
         ctx.fillText(obs.emoji, obs.x, obs.y + obs.h - 2);
       });
 
-      // Player (running character)
-      const legOffset = player.onGround ? Math.sin(player.running * 0.3) * 5 : 3;
-      ctx.font = '34px serif';
-      ctx.fillText('🏃', player.x, player.y + player.h - 4 + (player.onGround ? 0 : -2));
+      // Player (running character) - blink during invincibility
+      if (invincible <= 0 || Math.floor(frameCount / 4) % 2 === 0) {
+        const legOffset = player.onGround ? Math.sin(player.running * 0.3) * 5 : 3;
+        ctx.font = '34px serif';
+        ctx.fillText('🏃', player.x, player.y + player.h - 4 + (player.onGround ? 0 : -2));
+      }
 
       // Particles
       particles.forEach(p => {
