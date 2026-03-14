@@ -5,6 +5,205 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Helping Hands - Sunday School Games</title>
   <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .match-area {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .match-instruction {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #7f8c8d;
+      padding: 8px 0;
+    }
+
+    .match-columns {
+      display: flex;
+      gap: 12px;
+    }
+
+    .match-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .match-col-title {
+      font-family: 'Jua', sans-serif;
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 6px;
+      border-radius: 8px;
+      color: #fff;
+    }
+
+    .match-col-title.person { background: var(--hands-color); }
+    .match-col-title.service { background: #e67e22; }
+
+    .match-item {
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px 10px;
+      box-shadow: var(--card-shadow);
+      text-align: center;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+      line-height: 1.4;
+    }
+
+    .match-item:active { transform: scale(0.97); }
+
+    .match-item.selected {
+      border-color: var(--hands-color);
+      background: #ebf5fb;
+    }
+
+    .match-item.correct {
+      border-color: #27ae60;
+      background: #e8f8f0;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .match-item.wrong {
+      border-color: #e74c3c;
+      background: #fdecea;
+      animation: shake 0.4s;
+    }
+
+    .match-item .item-emoji {
+      font-size: 1.5rem;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    .round-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 16px;
+    }
+
+    .round-card .round-title {
+      font-family: 'Jua', sans-serif;
+      font-size: 1.1rem;
+      text-align: center;
+      margin-bottom: 12px;
+      color: var(--hands-color);
+    }
+
+    .round-card .story-text {
+      font-size: 0.88rem;
+      color: #555;
+      line-height: 1.6;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .round-card .story-verse {
+      font-size: 0.78rem;
+      color: #95a5a6;
+      text-align: center;
+      font-style: italic;
+    }
+
+    .answer-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .answer-btn {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #ecf0f1;
+      border-radius: 12px;
+      background: #fff;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+      font-family: 'Noto Sans KR', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .answer-btn:active { transform: scale(0.98); }
+
+    .answer-btn .btn-emoji { font-size: 1.3rem; }
+
+    .answer-btn.correct {
+      border-color: #27ae60;
+      background: #e8f8f0;
+      color: #27ae60;
+      font-weight: 700;
+    }
+
+    .answer-btn.wrong {
+      border-color: #e74c3c;
+      background: #fdecea;
+      color: #e74c3c;
+    }
+
+    .answer-btn:disabled {
+      cursor: default;
+      opacity: 0.7;
+    }
+
+    .explanation {
+      margin-top: 16px;
+      padding: 16px;
+      background: #eaf6fd;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      text-align: left;
+      display: none;
+    }
+
+    .explanation.show { display: block; }
+
+    .next-btn {
+      background: var(--hands-color) !important;
+    }
+
+    .result-screen .retry-btn {
+      background: var(--hands-color);
+    }
+
+    .result-screen .result-score {
+      color: var(--hands-color);
+    }
+
+    .hands-counter {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+
+    .hand-icon {
+      font-size: 1.5rem;
+      opacity: 0.3;
+      transition: opacity 0.3s;
+    }
+
+    .hand-icon.active { opacity: 1; }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -12,12 +211,329 @@
       <a href="../../index.html" class="back-btn">←</a>
       <h2>🤲 Helping Hands</h2>
     </div>
-    <div class="quiz-card" style="text-align:center; padding:60px 20px;">
-      <div style="font-size:4rem; margin-bottom:20px;">🚧</div>
-      <h3>Coming Soon!</h3>
-      <p style="margin-top:12px; color:#95a5a6;">성경 속 봉사 이야기 매칭 게임이 곧 찾아옵니다!</p>
-      <a href="../../index.html" class="home-btn" style="margin-top:24px;">홈으로 돌아가기 🏠</a>
+
+    <div class="score-bar">
+      <span class="score" style="color:var(--hands-color);">점수: <strong id="score">0</strong></span>
+      <span class="progress" id="progress">1 / 10</span>
+    </div>
+
+    <div id="game-area">
+      <div class="hands-counter" id="hands-counter"></div>
+
+      <div class="round-card">
+        <div class="round-title" id="round-title"></div>
+        <div class="story-text" id="story-text"></div>
+        <div class="story-verse" id="story-verse"></div>
+
+        <div class="answer-options" id="answer-options"></div>
+        <div class="explanation" id="explanation"></div>
+        <button class="next-btn" id="next-btn" onclick="nextRound()">다음 문제 →</button>
+      </div>
+    </div>
+
+    <div id="result-area" style="display:none;">
+      <div class="result-screen">
+        <div class="emoji" id="result-emoji"></div>
+        <h2 id="result-title"></h2>
+        <div class="result-score" id="result-score"></div>
+        <p class="result-msg" id="result-msg"></p>
+        <div class="btn-group">
+          <button class="retry-btn" onclick="startGame()">다시 도전! 🔄</button>
+          <a href="../../index.html" class="home-btn">홈으로 돌아가기 🏠</a>
+        </div>
+      </div>
+
+      <div class="quiz-card" style="margin-top:16px; text-align:left;">
+        <h3 style="margin-bottom:12px;">📖 오늘의 말씀</h3>
+        <p style="font-size:0.9rem; line-height:1.7; color:#555;">
+          "네 손이 일찍이 얻은 것은 힘을 다하여 할지어다"
+          <br><strong>— 전도서 9:10</strong>
+        </p>
+        <p style="font-size:0.85rem; line-height:1.7; color:#555; margin-top:12px;">
+          "너희 각 사람이 은사를 받은 대로 하나님의 여러 가지 은혜의 선한 청지기같이 서로 봉사하라"
+          <br><strong>— 베드로전서 4:10</strong>
+        </p>
+      </div>
     </div>
   </div>
+
+  <script>
+    const allQuestions = [
+      {
+        title: "🏔️ 모세의 전투 지원",
+        story: "아말렉이 이스라엘을 공격했을 때, 모세가 손을 들면 이스라엘이 이기고, 내리면 졌어요. 모세의 손이 피곤해졌을 때 누가 도왔나요?",
+        verse: "📖 출애굽기 17:8-14",
+        choices: [
+          { emoji: "👥", text: "아론과 훌이 양쪽에서 팔을 받쳐주었다", correct: true },
+          { emoji: "⚔️", text: "여호수아가 혼자 모든 적을 물리쳤다", correct: false },
+          { emoji: "🏃", text: "모세가 쉬지 않고 혼자 버텼다", correct: false },
+          { emoji: "🪨", text: "아무도 돕지 않았다", correct: false }
+        ],
+        explanation: "아론과 훌은 모세의 양쪽에서 팔을 받쳐주었어요. 뒤에서 돕는 역할도 전쟁에서 싸우는 것만큼 중요해요! 우리도 보이지 않는 곳에서 돕는 손이 될 수 있어요."
+      },
+      {
+        title: "⚔️ 다윗의 전리품 나눔",
+        story: "다윗이 전투에서 승리하고 돌아왔을 때, 지쳐서 뒤에 남아있던 200명의 병사들에게 전리품을 어떻게 했나요?",
+        verse: "📖 사무엘상 30:18-25",
+        choices: [
+          { emoji: "🤝", text: "싸운 사람과 똑같이 나누어 주었다", correct: true },
+          { emoji: "🚫", text: "아무것도 주지 않았다", correct: false },
+          { emoji: "💰", text: "절반만 주었다", correct: false },
+          { emoji: "😡", text: "벌을 주었다", correct: false }
+        ],
+        explanation: "다윗은 뒤에서 짐을 지킨 사람도 전쟁에 나간 사람과 동등하게 전리품을 나누었어요. 모든 역할은 똑같이 소중해요!"
+      },
+      {
+        title: "💧 물 한 그릇의 가치",
+        story: "예수님은 제자의 이름으로 누군가에게 냉수 한 그릇을 주면 어떻게 된다고 하셨나요?",
+        verse: "📖 마태복음 10:41-42",
+        choices: [
+          { emoji: "🎁", text: "결단코 상을 잃지 않을 것이다", correct: true },
+          { emoji: "🤷", text: "아무 의미 없다", correct: false },
+          { emoji: "📝", text: "더 큰 일을 해야 상을 받는다", correct: false },
+          { emoji: "⏳", text: "나중에 갚아야 한다", correct: false }
+        ],
+        explanation: "작은 도움이라도 하나님은 다 보고 계세요! 물 한 그릇이라도 진심으로 주면 하나님이 기뻐하시고 상을 주세요."
+      },
+      {
+        title: "🩹 선한 사마리아인",
+        story: "강도를 만나 다친 사람을 보고 제사장과 레위인은 지나갔어요. 누가 멈춰서 도왔나요?",
+        verse: "📖 누가복음 10:30-37",
+        choices: [
+          { emoji: "💛", text: "사마리아 사람이 직접 치료하고 숙소비까지 주었다", correct: true },
+          { emoji: "🏛️", text: "제사장이 돌아와서 도왔다", correct: false },
+          { emoji: "👀", text: "레위인이 멀리서 기도해주었다", correct: false },
+          { emoji: "🏃", text: "아무도 돕지 않았다", correct: false }
+        ],
+        explanation: "사마리아인은 민족이 달라도 다친 사람을 도왔어요. 진짜 이웃은 도움이 필요한 사람에게 손을 내미는 사람이에요!"
+      },
+      {
+        title: "🍞 엘리야를 먹인 과부",
+        story: "가뭄 때 사르밧 과부는 마지막 남은 기름과 가루로 무엇을 했나요?",
+        verse: "📖 열왕기상 17:8-16",
+        choices: [
+          { emoji: "🤲", text: "엘리야에게 먼저 떡을 만들어 주었다", correct: true },
+          { emoji: "🏠", text: "자기와 아들만 먹고 거절했다", correct: false },
+          { emoji: "🏪", text: "시장에 가서 더 사왔다", correct: false },
+          { emoji: "😢", text: "울면서 아무것도 하지 않았다", correct: false }
+        ],
+        explanation: "과부는 마지막 양식을 하나님의 사람에게 먼저 나누었고, 하나님은 기름과 가루가 떨어지지 않게 해주셨어요. 나눔에는 하나님의 축복이 따라요!"
+      },
+      {
+        title: "🦶 예수님의 발 씻김",
+        story: "최후의 만찬에서 예수님은 제자들에게 무엇을 하셨나요?",
+        verse: "📖 요한복음 13:1-17",
+        choices: [
+          { emoji: "💧", text: "제자들의 발을 직접 씻겨 주셨다", correct: true },
+          { emoji: "👑", text: "왕의 자리에 앉으셨다", correct: false },
+          { emoji: "📜", text: "긴 설교를 하셨다", correct: false },
+          { emoji: "🍷", text: "포도주만 나누셨다", correct: false }
+        ],
+        explanation: "하나님의 아들이신 예수님이 종의 일인 발 씻김을 하셨어요. 섬김은 가장 높은 리더십이에요!"
+      },
+      {
+        title: "🧺 다비다의 손",
+        story: "욥바에 살던 다비다(도르가)는 무엇으로 유명했나요?",
+        verse: "📖 사도행전 9:36-42",
+        choices: [
+          { emoji: "🧵", text: "가난한 과부들에게 옷을 만들어 주었다", correct: true },
+          { emoji: "💰", text: "부자들에게 투자했다", correct: false },
+          { emoji: "📢", text: "광장에서 연설했다", correct: false },
+          { emoji: "🏛️", text: "성전을 지었다", correct: false }
+        ],
+        explanation: "다비다는 자기 손으로 옷을 만들어 가난한 사람들을 도왔어요. 우리 손으로 할 수 있는 작은 봉사가 큰 사랑이 돼요!"
+      },
+      {
+        title: "🏠 마르다의 섬김",
+        story: "예수님이 마르다와 마리아의 집을 방문했을 때, 마르다는 무엇을 했나요?",
+        verse: "📖 누가복음 10:38-42",
+        choices: [
+          { emoji: "🍳", text: "음식을 준비하며 손님을 대접했다", correct: true },
+          { emoji: "📖", text: "성경을 읽었다", correct: false },
+          { emoji: "😴", text: "쉬고 있었다", correct: false },
+          { emoji: "🏃", text: "밖에 나가 있었다", correct: false }
+        ],
+        explanation: "마르다는 손으로 음식을 만들어 섬겼어요. 봉사도 중요하지만, 예수님은 말씀 듣는 것도 중요하다고 가르쳐 주셨어요. 균형이 중요해요!"
+      },
+      {
+        title: "👦 소년의 도시락",
+        story: "5천 명이 배고팠을 때, 한 소년이 어떻게 도왔나요?",
+        verse: "📖 요한복음 6:1-14",
+        choices: [
+          { emoji: "🐟", text: "보리떡 5개와 물고기 2마리를 예수님께 드렸다", correct: true },
+          { emoji: "🏃", text: "빵집에 달려가서 사왔다", correct: false },
+          { emoji: "🤐", text: "도시락을 숨겼다", correct: false },
+          { emoji: "😥", text: "자기만 먹었다", correct: false }
+        ],
+        explanation: "소년은 작은 도시락을 기꺼이 내놓았고, 예수님은 그것으로 5천 명을 먹이셨어요! 작은 나눔도 하나님 손에서 큰 기적이 돼요."
+      },
+      {
+        title: "🫗 가난한 과부의 헌금",
+        story: "성전에서 부자들이 많이 헌금할 때, 가난한 과부는 어떻게 했나요?",
+        verse: "📖 마가복음 12:41-44",
+        choices: [
+          { emoji: "💝", text: "가진 것 전부인 동전 두 닢을 드렸다", correct: true },
+          { emoji: "🙈", text: "부끄러워서 드리지 않았다", correct: false },
+          { emoji: "💰", text: "부자보다 더 많이 드렸다", correct: false },
+          { emoji: "😤", text: "부자들을 부러워했다", correct: false }
+        ],
+        explanation: "예수님은 과부가 가장 많이 드렸다고 하셨어요. 얼마를 드리느냐보다 마음을 다해 드리는 것이 중요해요!"
+      },
+      {
+        title: "💪 느헤미야의 성벽 재건",
+        story: "느헤미야가 예루살렘 성벽을 다시 쌓을 때, 백성들은 어떻게 했나요?",
+        verse: "📖 느헤미야 3-4장",
+        choices: [
+          { emoji: "🧱", text: "각자 자기 집 앞의 성벽을 맡아 함께 쌓았다", correct: true },
+          { emoji: "👷", text: "느헤미야 혼자 다 쌓았다", correct: false },
+          { emoji: "💤", text: "너무 힘들어서 포기했다", correct: false },
+          { emoji: "💵", text: "돈을 모아 외국인을 고용했다", correct: false }
+        ],
+        explanation: "모든 백성이 각자 맡은 부분을 함께 일해서 52일 만에 성벽을 완성했어요! 함께 힘을 모으면 불가능해 보이는 일도 할 수 있어요."
+      },
+      {
+        title: "🧤 룻의 헌신",
+        story: "시어머니 나오미가 고향으로 돌아갈 때, 룻은 어떻게 했나요?",
+        verse: "📖 룻기 1:16-17",
+        choices: [
+          { emoji: "🤝", text: "끝까지 함께하며 이삭 줍기로 가족을 부양했다", correct: true },
+          { emoji: "👋", text: "작별 인사를 하고 고향으로 돌아갔다", correct: false },
+          { emoji: "💰", text: "돈만 보내주었다", correct: false },
+          { emoji: "😢", text: "울기만 했다", correct: false }
+        ],
+        explanation: "룻은 '어머니의 하나님이 나의 하나님'이라며 끝까지 함께했어요. 손으로 이삭을 주워 가족을 먹였고, 하나님은 그녀를 예수님의 조상으로 축복해주셨어요!"
+      }
+    ];
+
+    let questions = [];
+    let current = 0;
+    let score = 0;
+    let answered = false;
+    const TOTAL_ROUNDS = 10;
+
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function startGame() {
+      questions = shuffle(allQuestions).slice(0, TOTAL_ROUNDS);
+      current = 0;
+      score = 0;
+      answered = false;
+      document.getElementById('game-area').style.display = 'block';
+      document.getElementById('result-area').style.display = 'none';
+      renderRound();
+    }
+
+    function updateHands() {
+      const container = document.getElementById('hands-counter');
+      container.innerHTML = '';
+      for (let i = 0; i < TOTAL_ROUNDS; i++) {
+        const hand = document.createElement('span');
+        hand.className = 'hand-icon' + (i < current + 1 ? ' active' : '');
+        hand.textContent = '🤲';
+        container.appendChild(hand);
+      }
+    }
+
+    function renderRound() {
+      const q = questions[current];
+      document.getElementById('round-title').textContent = q.title;
+      document.getElementById('story-text').textContent = q.story;
+      document.getElementById('story-verse').textContent = q.verse;
+      document.getElementById('score').textContent = score;
+      document.getElementById('progress').textContent = (current + 1) + ' / ' + TOTAL_ROUNDS;
+
+      const optionsEl = document.getElementById('answer-options');
+      optionsEl.innerHTML = '';
+
+      const shuffled = shuffle(q.choices.map((c, i) => ({ ...c, origIdx: i })));
+
+      shuffled.forEach((c) => {
+        const btn = document.createElement('button');
+        btn.className = 'answer-btn';
+        btn.innerHTML = '<span class="btn-emoji">' + c.emoji + '</span><span>' + c.text + '</span>';
+        btn.onclick = () => selectAnswer(btn, c.correct);
+        optionsEl.appendChild(btn);
+      });
+
+      document.getElementById('explanation').className = 'explanation';
+      document.getElementById('next-btn').className = 'next-btn';
+      answered = false;
+      updateHands();
+    }
+
+    function selectAnswer(btn, isCorrect) {
+      if (answered) return;
+      answered = true;
+
+      const btns = document.querySelectorAll('.answer-btn');
+      btns.forEach(b => {
+        b.disabled = true;
+        const bCorrect = questions[current].choices.find(c => c.text === b.querySelector('span:last-child').textContent);
+        if (bCorrect && bCorrect.correct) b.classList.add('correct');
+      });
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+        score += 10;
+      } else {
+        btn.classList.add('wrong');
+      }
+
+      document.getElementById('score').textContent = score;
+
+      const expEl = document.getElementById('explanation');
+      expEl.textContent = '🤲 ' + questions[current].explanation;
+      expEl.className = 'explanation show';
+
+      const nextBtn = document.getElementById('next-btn');
+      nextBtn.textContent = current < TOTAL_ROUNDS - 1 ? '다음 문제 →' : '결과 보기 🎉';
+      nextBtn.className = 'next-btn show';
+    }
+
+    function nextRound() {
+      current++;
+      if (current >= TOTAL_ROUNDS) {
+        showResult();
+      } else {
+        renderRound();
+      }
+    }
+
+    function showResult() {
+      document.getElementById('game-area').style.display = 'none';
+      document.getElementById('result-area').style.display = 'block';
+
+      const pct = score / (TOTAL_ROUNDS * 10) * 100;
+      let emoji, title, msg;
+
+      if (pct >= 90) {
+        emoji = '🌟'; title = '봉사의 달인!';
+        msg = '성경 속 봉사 이야기를 아주 잘 알고 있어요! "네 손이 일찍이 얻은 것은 힘을 다하여 할지어다" (전도서 9:10)';
+      } else if (pct >= 70) {
+        emoji = '😊'; title = '따뜻한 손!';
+        msg = '봉사의 마음이 넘쳐요! 조금만 더 공부하면 봉사 마스터!';
+      } else if (pct >= 50) {
+        emoji = '💪'; title = '괜찮아요!';
+        msg = '성경에는 아름다운 봉사 이야기가 가득해요. 더 읽어보면 더 잘 알 수 있어요!';
+      } else {
+        emoji = '📖'; title = '다시 도전해봐요!';
+        msg = '성경 속 봉사 이야기를 더 읽어보고 다시 도전해보세요. 작은 도움도 큰 사랑이에요!';
+      }
+
+      document.getElementById('result-emoji').textContent = emoji;
+      document.getElementById('result-title').textContent = title;
+      document.getElementById('result-score').textContent = score + ' / ' + (TOTAL_ROUNDS * 10);
+      document.getElementById('result-msg').textContent = msg;
+    }
+
+    startGame();
+  </script>
 </body>
 </html>

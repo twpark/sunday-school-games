@@ -5,6 +5,202 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Tongue Tamer - Sunday School Games</title>
   <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .game-zone {
+      position: relative;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .zone-labels {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 8px;
+    }
+
+    .zone-label {
+      font-family: 'Jua', sans-serif;
+      font-size: 1rem;
+      padding: 8px 16px;
+      border-radius: 12px;
+      color: #fff;
+    }
+
+    .zone-label.bad { background: #e74c3c; }
+    .zone-label.good { background: #27ae60; }
+
+    .word-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px 24px;
+      box-shadow: var(--card-shadow);
+      text-align: center;
+      width: 85%;
+      max-width: 320px;
+      position: relative;
+      touch-action: none;
+      cursor: grab;
+      transition: transform 0.1s, box-shadow 0.2s;
+      z-index: 10;
+    }
+
+    .word-card.dragging {
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      cursor: grabbing;
+    }
+
+    .word-card .word-text {
+      font-size: 1.4rem;
+      font-weight: 700;
+      font-family: 'Jua', sans-serif;
+      margin-bottom: 8px;
+    }
+
+    .word-card .word-verse {
+      font-size: 0.75rem;
+      color: #95a5a6;
+      font-style: italic;
+    }
+
+    .swipe-hint {
+      display: flex;
+      justify-content: space-between;
+      width: 85%;
+      max-width: 320px;
+      font-size: 0.8rem;
+      color: #bdc3c7;
+    }
+
+    .swipe-hint span { display: flex; align-items: center; gap: 4px; }
+
+    .btn-row {
+      display: flex;
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .sort-btn {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 3px solid;
+      background: #fff;
+      font-size: 1.8rem;
+      cursor: pointer;
+      transition: transform 0.15s, background 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sort-btn:active { transform: scale(0.9); }
+
+    .sort-btn.bad-btn {
+      border-color: #e74c3c;
+      color: #e74c3c;
+    }
+
+    .sort-btn.bad-btn:active { background: #fdecea; }
+
+    .sort-btn.good-btn {
+      border-color: #27ae60;
+      color: #27ae60;
+    }
+
+    .sort-btn.good-btn:active { background: #e8f8f0; }
+
+    .feedback-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .feedback-overlay.show { opacity: 1; }
+
+    .feedback-bubble {
+      background: #fff;
+      border-radius: 20px;
+      padding: 20px 28px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+      text-align: center;
+      max-width: 300px;
+    }
+
+    .feedback-bubble .fb-emoji { font-size: 2.5rem; margin-bottom: 8px; }
+    .feedback-bubble .fb-text { font-size: 0.9rem; line-height: 1.5; color: #555; }
+    .feedback-bubble .fb-verse { font-size: 0.78rem; color: #95a5a6; margin-top: 8px; font-style: italic; }
+
+    .feedback-bubble.correct { border: 3px solid #27ae60; }
+    .feedback-bubble.wrong { border: 3px solid #e74c3c; }
+
+    .streak-bar {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      margin-bottom: 4px;
+    }
+
+    .streak-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ecf0f1;
+      transition: background 0.3s;
+    }
+
+    .streak-dot.hit { background: #27ae60; }
+    .streak-dot.miss { background: #e74c3c; }
+
+    .card-fly-left {
+      animation: flyLeft 0.4s forwards;
+    }
+
+    .card-fly-right {
+      animation: flyRight 0.4s forwards;
+    }
+
+    @keyframes flyLeft {
+      to { transform: translateX(-150%) rotate(-20deg); opacity: 0; }
+    }
+
+    @keyframes flyRight {
+      to { transform: translateX(150%) rotate(20deg); opacity: 0; }
+    }
+
+    .tongue-meter {
+      width: 100%;
+      height: 12px;
+      background: #ecf0f1;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .tongue-meter-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #e74c3c, #e67e22, #27ae60);
+      border-radius: 6px;
+      transition: width 0.4s ease;
+    }
+
+    .result-screen .retry-btn {
+      background: var(--tongue-color);
+    }
+
+    .result-screen .result-score {
+      color: var(--tongue-color);
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -12,12 +208,326 @@
       <a href="../../index.html" class="back-btn">←</a>
       <h2>👅 Tongue Tamer</h2>
     </div>
-    <div class="quiz-card" style="text-align:center; padding:60px 20px;">
-      <div style="font-size:4rem; margin-bottom:20px;">🚧</div>
-      <h3>Coming Soon!</h3>
-      <p style="margin-top:12px; color:#95a5a6;">좋은 말과 나쁜 말을 분류하는 게임이 곧 찾아옵니다!</p>
-      <a href="../../index.html" class="home-btn" style="margin-top:24px;">홈으로 돌아가기 🏠</a>
+
+    <div class="score-bar">
+      <span class="score" style="color:var(--tongue-color);">점수: <strong id="score">0</strong></span>
+      <span class="progress" id="progress">1 / 15</span>
+    </div>
+
+    <div id="game-area">
+      <div class="tongue-meter">
+        <div class="tongue-meter-fill" id="meter-fill" style="width:50%;"></div>
+      </div>
+
+      <div class="streak-bar" id="streak-bar"></div>
+
+      <div class="game-zone">
+        <div class="zone-labels">
+          <span class="zone-label bad">🚫 나쁜 말</span>
+          <span class="zone-label good">💚 좋은 말</span>
+        </div>
+
+        <div class="word-card" id="word-card">
+          <div class="word-text" id="word-text"></div>
+          <div class="word-verse" id="word-verse"></div>
+        </div>
+
+        <div class="swipe-hint">
+          <span>← 나쁜 말</span>
+          <span>좋은 말 →</span>
+        </div>
+
+        <div class="btn-row">
+          <button class="sort-btn bad-btn" onclick="sortWord('bad')">🚫</button>
+          <button class="sort-btn good-btn" onclick="sortWord('good')">💚</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="result-area" style="display:none;">
+      <div class="result-screen">
+        <div class="emoji" id="result-emoji"></div>
+        <h2 id="result-title"></h2>
+        <div class="result-score" id="result-score"></div>
+        <p class="result-msg" id="result-msg"></p>
+        <div class="btn-group">
+          <button class="retry-btn" onclick="startGame()">다시 도전! 🔄</button>
+          <a href="../../index.html" class="home-btn">홈으로 돌아가기 🏠</a>
+        </div>
+      </div>
+
+      <div class="quiz-card" style="margin-top:16px; text-align:left;">
+        <h3 style="margin-bottom:12px;">📖 오늘의 말씀</h3>
+        <p style="font-size:0.9rem; line-height:1.7; color:#555;">
+          "입을 지키는 자는 자기의 생명을 보전하나 입술을 크게 벌리는 자에게는 멸망이 오느니라"
+          <br><strong>— 잠언 13:3</strong>
+        </p>
+        <p style="font-size:0.85rem; line-height:1.7; color:#555; margin-top:12px;">
+          "선한 사람은 마음에 쌓은 선에서 선을 내고 악한 사람은 그 쌓은 악에서 악을 내나니 이는 마음에 가득한 것을 입으로 말함이니라"
+          <br><strong>— 마태복음 12:34-35</strong>
+        </p>
+      </div>
     </div>
   </div>
+
+  <div class="feedback-overlay" id="feedback-overlay">
+    <div class="feedback-bubble" id="feedback-bubble">
+      <div class="fb-emoji" id="fb-emoji"></div>
+      <div class="fb-text" id="fb-text"></div>
+      <div class="fb-verse" id="fb-verse"></div>
+    </div>
+  </div>
+
+  <script>
+    const allWords = [
+      // 좋은 말 (good)
+      { text: "고마워!", type: "good", feedback: "감사하는 마음을 표현하는 좋은 말이에요!", verse: "골로새서 3:15" },
+      { text: "괜찮아, 힘내!", type: "good", feedback: "힘든 친구를 위로하는 따뜻한 말이에요.", verse: "데살로니가전서 5:11" },
+      { text: "같이 하자!", type: "good", feedback: "함께하자는 말은 사랑의 표현이에요.", verse: "전도서 4:9" },
+      { text: "잘했어!", type: "good", feedback: "칭찬은 사람을 세워주는 좋은 말이에요.", verse: "잠언 16:24" },
+      { text: "미안해, 내가 잘못했어", type: "good", feedback: "잘못을 인정하는 용기 있는 말이에요.", verse: "야고보서 5:16" },
+      { text: "용서해줄게", type: "good", feedback: "용서는 하나님이 기뻐하시는 말이에요.", verse: "에베소서 4:32" },
+      { text: "하나님 감사합니다", type: "good", feedback: "하나님께 감사하는 말은 가장 아름다운 말이에요.", verse: "시편 107:1" },
+      { text: "널 위해 기도할게", type: "good", feedback: "기도의 약속은 가장 큰 선물이에요.", verse: "야고보서 5:16" },
+      { text: "먼저 해도 돼!", type: "good", feedback: "양보하는 말은 겸손의 표현이에요.", verse: "빌립보서 2:3" },
+      { text: "너 정말 잘하는구나!", type: "good", feedback: "진심 어린 칭찬은 사람을 세워줘요.", verse: "잠언 12:25" },
+      { text: "도와줄까?", type: "good", feedback: "도움을 제안하는 것은 사랑의 실천이에요.", verse: "갈라디아서 6:2" },
+      { text: "사랑해!", type: "good", feedback: "사랑을 표현하는 가장 좋은 말이에요.", verse: "요한일서 4:7" },
+
+      // 나쁜 말 (bad)
+      { text: "너 때문이야!", type: "bad", feedback: "남을 탓하는 말은 상처를 줘요. 먼저 자신을 돌아봐요.", verse: "마태복음 7:3" },
+      { text: "넌 못해!", type: "bad", feedback: "무시하는 말은 사람의 마음을 꺾어요.", verse: "에베소서 4:29" },
+      { text: "쟤랑 놀지 마!", type: "bad", feedback: "친구를 따돌리는 말은 하나님이 슬퍼하세요.", verse: "잠언 6:16-19" },
+      { text: "거짓말쟁이!", type: "bad", feedback: "함부로 판단하는 말은 상처를 남겨요.", verse: "야고보서 4:11" },
+      { text: "나만 잘하면 돼!", type: "bad", feedback: "이기적인 말은 함께하는 마음을 깨뜨려요.", verse: "빌립보서 2:4" },
+      { text: "됐어, 짜증나!", type: "bad", feedback: "화난 말은 불처럼 퍼져요. 참는 것이 지혜예요.", verse: "잠언 15:1" },
+      { text: "못생겼어!", type: "bad", feedback: "외모를 놀리는 말은 하나님의 창조를 무시하는 거예요.", verse: "시편 139:14" },
+      { text: "재미없어, 저리 가!", type: "bad", feedback: "거부하는 말은 마음에 상처를 줘요.", verse: "로마서 15:7" },
+      { text: "그것도 모르냐?", type: "bad", feedback: "무시하는 말은 겸손하지 않은 태도예요.", verse: "잠언 11:2" },
+      { text: "쟤가 그랬어요!", type: "bad", feedback: "고자질하는 말보다 직접 화해하는 것이 좋아요.", verse: "마태복음 18:15" },
+      { text: "안 해! 싫어!", type: "bad", feedback: "거친 거절보다 부드러운 말이 더 좋아요.", verse: "잠언 15:1" },
+      { text: "바보!", type: "bad", feedback: "놀리는 말은 사람의 마음을 아프게 해요.", verse: "마태복음 5:22" },
+    ];
+
+    let words = [];
+    let current = 0;
+    let score = 0;
+    let tameLevel = 50;
+    let results = [];
+    let isProcessing = false;
+    const TOTAL_ROUNDS = 15;
+
+    // Swipe support
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function startGame() {
+      words = shuffle(allWords).slice(0, TOTAL_ROUNDS);
+      current = 0;
+      score = 0;
+      tameLevel = 50;
+      results = [];
+      isProcessing = false;
+      document.getElementById('game-area').style.display = 'block';
+      document.getElementById('result-area').style.display = 'none';
+      updateStreak();
+      renderWord();
+    }
+
+    function renderWord() {
+      const w = words[current];
+      document.getElementById('word-text').textContent = w.text;
+      document.getElementById('word-verse').textContent = '';
+      document.getElementById('score').textContent = score;
+      document.getElementById('progress').textContent = (current + 1) + ' / ' + TOTAL_ROUNDS;
+      document.getElementById('meter-fill').style.width = tameLevel + '%';
+
+      const card = document.getElementById('word-card');
+      card.className = 'word-card';
+      card.style.transform = '';
+      card.style.opacity = '1';
+    }
+
+    function updateStreak() {
+      const bar = document.getElementById('streak-bar');
+      bar.innerHTML = '';
+      for (let i = 0; i < TOTAL_ROUNDS; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'streak-dot';
+        if (i < results.length) {
+          dot.classList.add(results[i] ? 'hit' : 'miss');
+        }
+        bar.appendChild(dot);
+      }
+    }
+
+    function sortWord(choice) {
+      if (isProcessing) return;
+      isProcessing = true;
+
+      const w = words[current];
+      const correct = w.type === choice;
+      const card = document.getElementById('word-card');
+
+      // Fly animation
+      card.classList.add(choice === 'bad' ? 'card-fly-left' : 'card-fly-right');
+
+      if (correct) {
+        score += 10;
+        tameLevel = Math.min(100, tameLevel + 5);
+        results.push(true);
+      } else {
+        tameLevel = Math.max(0, tameLevel - 8);
+        results.push(false);
+      }
+
+      updateStreak();
+
+      // Show feedback
+      setTimeout(() => {
+        showFeedback(correct, w);
+      }, 300);
+    }
+
+    function showFeedback(correct, word) {
+      const overlay = document.getElementById('feedback-overlay');
+      const bubble = document.getElementById('feedback-bubble');
+
+      document.getElementById('fb-emoji').textContent = correct ? '✅' : '❌';
+      document.getElementById('fb-text').textContent = word.feedback;
+      document.getElementById('fb-verse').textContent = '📖 ' + word.verse;
+
+      bubble.className = 'feedback-bubble ' + (correct ? 'correct' : 'wrong');
+
+      if (!correct) {
+        const correctLabel = word.type === 'good' ? '좋은 말' : '나쁜 말';
+        document.getElementById('fb-text').textContent = '이 말은 "' + correctLabel + '"이에요! ' + word.feedback;
+      }
+
+      overlay.classList.add('show');
+
+      setTimeout(() => {
+        overlay.classList.remove('show');
+        current++;
+        if (current >= TOTAL_ROUNDS) {
+          showResult();
+        } else {
+          renderWord();
+          isProcessing = false;
+        }
+      }, 1800);
+    }
+
+    function showResult() {
+      document.getElementById('game-area').style.display = 'none';
+      document.getElementById('result-area').style.display = 'block';
+
+      const pct = score / (TOTAL_ROUNDS * 10) * 100;
+      let emoji, title, msg;
+
+      if (pct >= 90) {
+        emoji = '🌟'; title = '혀를 완벽하게 길들였어요!';
+        msg = '좋은 말과 나쁜 말을 정확히 분별하고 있어요! "입을 지키는 자는 자기의 생명을 보전하느니라" (잠언 13:3)';
+      } else if (pct >= 70) {
+        emoji = '😊'; title = '잘하고 있어요!';
+        msg = '대부분 잘 분별했어요! 조금만 더 연습하면 혀를 완벽하게 다스릴 수 있어요.';
+      } else if (pct >= 50) {
+        emoji = '💪'; title = '괜찮아요, 더 연습해봐요!';
+        msg = '혀를 다스리는 건 쉽지 않아요. 하지만 하나님의 도움으로 할 수 있어요!';
+      } else {
+        emoji = '📖'; title = '다시 도전해봐요!';
+        msg = '야고보서 3장을 읽어보면 혀의 힘에 대해 더 잘 알 수 있어요. 다시 도전해보세요!';
+      }
+
+      document.getElementById('result-emoji').textContent = emoji;
+      document.getElementById('result-title').textContent = title;
+      document.getElementById('result-score').textContent = score + ' / ' + (TOTAL_ROUNDS * 10);
+      document.getElementById('result-msg').textContent = msg;
+    }
+
+    // Touch/swipe support
+    const card = document.getElementById('word-card');
+
+    card.addEventListener('touchstart', (e) => {
+      if (isProcessing) return;
+      startX = e.touches[0].clientX;
+      isDragging = true;
+      card.classList.add('dragging');
+    });
+
+    card.addEventListener('touchmove', (e) => {
+      if (!isDragging || isProcessing) return;
+      e.preventDefault();
+      currentX = e.touches[0].clientX - startX;
+      const rotate = currentX * 0.1;
+      card.style.transform = `translateX(${currentX}px) rotate(${rotate}deg)`;
+
+      if (currentX > 50) {
+        card.style.borderColor = '#27ae60';
+      } else if (currentX < -50) {
+        card.style.borderColor = '#e74c3c';
+      } else {
+        card.style.borderColor = '';
+      }
+    });
+
+    card.addEventListener('touchend', () => {
+      if (!isDragging || isProcessing) return;
+      isDragging = false;
+      card.classList.remove('dragging');
+      card.style.borderColor = '';
+
+      if (currentX > 80) {
+        sortWord('good');
+      } else if (currentX < -80) {
+        sortWord('bad');
+      } else {
+        card.style.transform = '';
+      }
+      currentX = 0;
+    });
+
+    // Mouse support
+    card.addEventListener('mousedown', (e) => {
+      if (isProcessing) return;
+      startX = e.clientX;
+      isDragging = true;
+      card.classList.add('dragging');
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging || isProcessing) return;
+      currentX = e.clientX - startX;
+      const rotate = currentX * 0.1;
+      card.style.transform = `translateX(${currentX}px) rotate(${rotate}deg)`;
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (!isDragging || isProcessing) return;
+      isDragging = false;
+      card.classList.remove('dragging');
+
+      if (currentX > 80) {
+        sortWord('good');
+      } else if (currentX < -80) {
+        sortWord('bad');
+      } else {
+        card.style.transform = '';
+      }
+      currentX = 0;
+    });
+
+    startGame();
+  </script>
 </body>
 </html>
