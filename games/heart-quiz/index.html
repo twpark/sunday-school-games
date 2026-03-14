@@ -183,6 +183,8 @@
       renderQuestion();
     }
 
+    let shuffledChoices = [];
+
     function renderQuestion() {
       const q = questions[current];
       document.getElementById('verse').textContent = '📖 ' + q.verse;
@@ -190,12 +192,15 @@
       document.getElementById('score').textContent = score;
       document.getElementById('progress').textContent = (current + 1) + ' / ' + questions.length;
 
+      // Shuffle choices so the correct answer isn't always in the same position
+      shuffledChoices = shuffle(q.choices.map((text, origIdx) => ({ text, origIdx })));
+
       const choicesEl = document.getElementById('choices');
       choicesEl.innerHTML = '';
-      q.choices.forEach((c, i) => {
+      shuffledChoices.forEach((c, i) => {
         const btn = document.createElement('button');
         btn.className = 'choice-btn';
-        btn.textContent = c;
+        btn.textContent = c.text;
         btn.onclick = () => selectAnswer(i);
         choicesEl.appendChild(btn);
       });
@@ -211,14 +216,15 @@
 
       const q = questions[current];
       const btns = document.querySelectorAll('.choice-btn');
+      const isCorrect = shuffledChoices[idx].origIdx === q.answer;
 
       btns.forEach((btn, i) => {
         btn.disabled = true;
-        if (i === q.answer) btn.classList.add('correct');
-        if (i === idx && idx !== q.answer) btn.classList.add('wrong');
+        if (shuffledChoices[i].origIdx === q.answer) btn.classList.add('correct');
+        if (i === idx && !isCorrect) btn.classList.add('wrong');
       });
 
-      if (idx === q.answer) score += 10;
+      if (isCorrect) score += 10;
       document.getElementById('score').textContent = score;
 
       const expEl = document.getElementById('explanation');
