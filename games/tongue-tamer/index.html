@@ -425,7 +425,7 @@
           renderWord();
           isProcessing = false;
         }
-      }, 1800);
+      }, 2500);
     }
 
     function showResult() {
@@ -487,9 +487,9 @@
       card.classList.remove('dragging');
       card.style.borderColor = '';
 
-      if (currentX > 80) {
+      if (currentX > 100) {
         sortWord('good');
-      } else if (currentX < -80) {
+      } else if (currentX < -100) {
         sortWord('bad');
       } else {
         card.style.transform = '';
@@ -517,9 +517,9 @@
       isDragging = false;
       card.classList.remove('dragging');
 
-      if (currentX > 80) {
+      if (currentX > 100) {
         sortWord('good');
-      } else if (currentX < -80) {
+      } else if (currentX < -100) {
         sortWord('bad');
       } else {
         card.style.transform = '';
