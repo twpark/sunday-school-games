@@ -97,107 +97,153 @@
 
 ## 3. Game Genre Ideas
 
-### Tier 1: High Impact, Medium Complexity (Recommended)
+### Tier 1: High Impact, Achievable Complexity (Recommended)
 
-#### 3a. Platformer Adventure
-- **Genre**: 2D platformer with story elements
-- **Mechanic**: Navigate biblical scenes, collect scripture scrolls, avoid temptation obstacles
-- **Educational**: Each level teaches a Bible story; collectibles are key verses
-- **Framework**: Phaser (physics, tilemaps, sprites)
-- **Example concept**: "Journey to the Promised Land" — Moses leads Israelites through desert levels
+#### 3a. Escape Room / Puzzle Quest
+- **Genre**: Puzzle / adventure
+- **Mechanic**: Find clues → solve ciphers → unlock next room. Timer adds tension.
+- **Educational**: ★★★★★ — Bible knowledge becomes the key to progress. Natural learning through puzzle-solving.
+- **Framework**: Vanilla JS (DOM-based, no physics needed)
+- **Complexity**: Medium
+- **Example concepts**: "Exodus Escape" — Solve 10 plague puzzles to escape Egypt. "Daniel's Lion Den" — Decode scripture clues to survive.
 
-#### 3b. Tower Defense
-- **Genre**: Strategic tower defense
-- **Mechanic**: Place "Armor of God" pieces (Ephesians 6:10-18) to defend against waves of temptation
-- **Educational**: Each tower type maps to a piece of spiritual armor; kids learn what each piece represents
-- **Framework**: Phaser (sprite management, pathfinding, waves)
-- **Example concept**: "Armor Up!" — Shield of Faith blocks lies, Sword of the Spirit attacks doubt
+#### 3b. Visual Novel / Choice-Based Story
+- **Genre**: Interactive fiction
+- **Mechanic**: Read Bible story with branching choices; see consequences of moral decisions
+- **Educational**: ★★★★★ — Deep engagement with narrative, moral reasoning training. "What if David didn't fight Goliath?"
+- **Framework**: Vanilla JS or Tuesday.js (lightweight VN engine, zero dependencies, runs in browser)
+- **Complexity**: Low–Medium
+- **Example concepts**: "Solomon's Court" — Make judgments as king, see outcomes. "The Prodigal's Choice" — Experience the story from different perspectives.
 
-#### 3c. Point-and-Click Adventure
-- **Genre**: Interactive story / adventure
-- **Mechanic**: Explore biblical scenes, talk to characters, solve puzzles, make moral choices
-- **Educational**: Immersive storytelling teaches context of Bible stories
-- **Framework**: Phaser (scene management, dialogue system, inventory)
-- **Example concept**: "Walk with Jesus" — Experience parables firsthand
-
-#### 3d. Memory / Matching Game
+#### 3c. Memory / Card Matching
 - **Genre**: Card matching / memory
 - **Mechanic**: Flip cards to match Bible verses with their meanings, or match Fruits of the Spirit to descriptions
-- **Educational**: Repetition-based memorization of key concepts
+- **Educational**: ★★★★ — Repetition-based memorization of key concepts
 - **Framework**: Vanilla JS or Phaser (simple animations, card flip effects)
+- **Complexity**: Low
 - **Example concept**: "Verse Match" — Match scripture references to their content
 
-### Tier 2: Medium Impact, Various Complexity
-
-#### 3e. Rhythm Game
-- **Genre**: Music/rhythm
-- **Mechanic**: Tap notes in time with worship songs or scripture set to music
-- **Educational**: Worship music engagement, verse memorization through melody
-- **Framework**: Phaser (precise timing, audio sync, particle effects)
-- **Example concept**: "Praise Beats" — Tap along to hymns
-
-#### 3f. Word Puzzle Games
+#### 3d. Word Puzzle Games
 - **Genre**: Word search / crossword / scramble
 - **Mechanic**: Find Bible terms in word grids, unscramble verse words, fill crosswords with biblical knowledge
-- **Educational**: Vocabulary building, verse familiarity
+- **Educational**: ★★★★ — Vocabulary building, verse familiarity through repeated exposure
 - **Framework**: Vanilla JS (DOM-based grid, no physics needed)
-- **Example concept**: "Word of God" — Weekly word search with unit vocabulary
+- **Complexity**: Low
+- **Example concept**: "Word of God" — Weekly word search with current unit vocabulary
 
-#### 3g. Drag-and-Drop Builder
-- **Genre**: Construction / puzzle
-- **Mechanic**: Drag pieces to build Noah's Ark, Solomon's Temple, or the Tabernacle
-- **Educational**: Learn structure/significance of biblical buildings
-- **Framework**: Phaser or vanilla JS (drag-drop, snap-to-grid)
-- **Example concept**: "Build the Temple" — Assemble pieces while learning each part's purpose
+### Tier 2: High Impact, Higher Complexity
+
+#### 3e. Tower Defense
+- **Genre**: Strategic tower defense
+- **Mechanic**: Place "Armor of God" pieces (Ephesians 6:10-18) to defend against waves of temptation
+- **Educational**: ★★★★ — Each tower type maps to spiritual armor; strategic thinking + Bible knowledge
+- **Framework**: Phaser (sprite management, pathfinding, waves)
+- **Complexity**: Medium–High
+- **Example concept**: "Armor Up!" — Shield of Faith blocks lies, Sword of the Spirit attacks doubt, Belt of Truth reveals hidden enemies
+
+#### 3f. Point-and-Click Adventure
+- **Genre**: Interactive story / adventure
+- **Mechanic**: Explore biblical scenes, talk to characters, solve puzzles, make moral choices
+- **Educational**: ★★★★★ — Immersive storytelling for deep Bible story engagement
+- **Framework**: Phaser (scene management, dialogue system, inventory)
+- **Complexity**: High (requires art assets, dialogue trees)
+- **Example concepts**: "Paul's Missionary Journey" — Visit cities, complete quests. "Walk with Jesus" — Experience parables firsthand.
+
+#### 3g. Card Collection / Battle
+- **Genre**: Collectible card game
+- **Mechanic**: Collect Bible character cards with stats + scripture quotes. Build decks, turn-based battles.
+- **Educational**: ★★★★ — Collection drive motivates learning about Bible characters. Research shows CCGs develop logical reasoning and knowledge synthesis.
+- **Framework**: Phaser (card animations, battle system)
+- **Complexity**: Medium–High
+- **Example concept**: "Bible Heroes" — David (high attack), Solomon (wisdom cards), Esther (special ability). Unlock new cards by completing lessons.
 
 #### 3h. Board Game (Digital)
 - **Genre**: Digital board game
 - **Mechanic**: Roll dice, move spaces, answer Bible questions at each stop. Snakes = sins, ladders = blessings.
-- **Educational**: Review-style game covering multiple topics
+- **Educational**: ★★★★ — Review-style game covering multiple topics in one session
 - **Framework**: Phaser (board rendering, dice animation, token movement)
-- **Example concept**: "Faith Path" — Race to finish while answering questions
+- **Complexity**: Medium
+- **Example concept**: "Faith Path" — Ladders for prayer/kindness, snakes for lying/jealousy. Quiz at each square.
 
-### Tier 3: Experimental / Advanced
+### Tier 3: Experimental / Niche
 
-#### 3i. Visual Novel / Choice-Based Story
-- **Genre**: Interactive fiction
-- **Mechanic**: Read Bible story with branching choices; see consequences of moral decisions
-- **Educational**: Deep engagement with narrative, moral reasoning
-- **Framework**: Vanilla JS or lightweight VN engine (Ren'Py web export, or custom)
-- **Example concept**: "Choose Your Path" — What if David didn't fight Goliath?
+#### 3i. Rhythm Game
+- **Genre**: Music/rhythm
+- **Mechanic**: Tap notes in time with worship songs. Bonus stage: fill in missing lyrics.
+- **Educational**: ★★★★ — Worship music engagement, verse memorization through melody
+- **Framework**: Phaser (precise timing, audio sync via Web Audio API)
+- **Complexity**: Medium–High (audio sync is the key challenge)
+- **Example concept**: "Praise Beats" — This week's worship song as rhythm game. References: Bemuse (open-source), Rhythm Plus.
 
-#### 3j. Idle / Clicker Game
+#### 3j. Drag-and-Drop Builder
+- **Genre**: Construction / puzzle
+- **Mechanic**: Drag pieces to build biblical structures. Each part snaps into place with explanation.
+- **Educational**: ★★★★ — Learn structure/significance of biblical buildings through assembly
+- **Framework**: Phaser or vanilla JS (drag-drop, snap-to-grid)
+- **Complexity**: Medium
+- **Example concepts**: "Build the Tabernacle" — Assemble each part while learning its spiritual meaning. "Noah's Blueprint" — Design the ark to spec.
+
+#### 3k. Platformer Adventure
+- **Genre**: 2D platformer with story elements
+- **Mechanic**: Navigate biblical scenes, collect scripture scrolls, avoid temptation obstacles
+- **Educational**: ★★★ — Each level teaches a Bible story; collectibles are key verses
+- **Framework**: Phaser (physics, tilemaps, sprites)
+- **Complexity**: High (level design, physics, art)
+- **Example concept**: "To the Promised Land" — Wilderness level (collect manna), Jericho level (walls crumble)
+
+#### 3l. Idle / Clicker Game
 - **Genre**: Incremental
-- **Mechanic**: Build a church/garden by clicking; unlock Bible facts as milestones
-- **Educational**: Long-term engagement, fact discovery
-- **Framework**: Vanilla JS (simple state management)
-- **Example concept**: "Garden of Virtues" — Grow fruits of the Spirit over time
+- **Mechanic**: Click to plant seeds → grow Fruits of the Spirit trees → unlock descriptions of each fruit
+- **Educational**: ★★★ — Long-term engagement, progressive content unlocking
+- **Framework**: Vanilla JS (simple state management + localStorage)
+- **Complexity**: Low–Medium
+- **Example concept**: "Garden of Virtues" — 9 fruit trees, each unlocks at a milestone with Bible teaching
 
-#### 3k. Multiplayer Quiz Battle
+#### 3m. Multiplayer Quiz Battle
 - **Genre**: Competitive quiz
 - **Mechanic**: Real-time or turn-based quiz battles between students
-- **Educational**: Competitive motivation, review reinforcement
-- **Framework**: Phaser + WebSocket server (requires backend)
-- **Note**: Multiplayer requires a server — not feasible with GitHub Pages alone. Could use Firebase or similar.
+- **Educational**: ★★★★ — Competitive motivation, review reinforcement
+- **Framework**: Requires backend (WebSocket or Firebase)
+- **Complexity**: High (server infrastructure)
+- **Note**: Not feasible with GitHub Pages alone. Alternatives: Firebase Realtime DB for async leaderboards, same-device turn-based co-op, or class-wide goal progress bar using Supabase.
 
 ---
 
 ## 4. Educational Design Patterns
 
+### Core Principle
+Games are tools to **reinforce** spiritual growth, not **replace** it. Every game mechanic should serve a learning objective.
+
 ### Gamification Elements
 - **Points & Scoring**: Immediate feedback on performance
 - **Badges/Achievements**: "Memorized 10 verses", "Completed all Unit 07 games"
-- **Progress Tracking**: localStorage-based progress across games
-- **Difficulty Levels**: Easy/Medium/Hard for different age groups (K-2, 3-4, 5-6)
+- **Quest/Mission System**: Weekly missions tied to curriculum (e.g., "Bible Detective" series where each week builds on the last)
+- **Role-Playing Elements**: Kids take on Bible character roles to explore scenarios
+- **Team Competition**: Small group battles via relay-style Bible quizzes
 - **Streak Rewards**: Bonus points for consecutive correct answers
 
+### Multi-Layer Reward System
+- **Instant Rewards**: Points, stars, correct/wrong feedback per action
+- **Cumulative Rewards**: Badges, level-ups earned over multiple sessions
+- **Long-term Rewards**: Unlockable content (new characters, stories, game modes)
+- **Autonomy**: Character customization, avatar decorating for ownership feeling
+- **Personalization**: Educational games offer less player control than entertainment — compensate with reward-driven autonomy
+
 ### Age-Appropriate Design
-- **Ages 5-7 (K-2)**: Large touch targets, simple mechanics (tap, drag), heavy visual feedback, minimal reading
-- **Ages 8-10 (3-4)**: Reading-based questions, moderate complexity, score tracking
-- **Ages 11-12 (5-6)**: Strategy elements, longer sessions, nuanced moral questions
+- **Ages 5-7 (K-2)**: Large touch targets, simple mechanics (tap/drag), heavy visual feedback, minimal reading. Reference: Bible App for Kids (YouVersion) targets 3-8 with 41 interactive stories + star/diamond collection.
+- **Ages 8-10 (3-4)**: Reading-based questions, moderate complexity, score tracking with XP. Reference: Superbook Kids Bible provides 20+ games with XP/level-up system.
+- **Ages 11-12 (5-6)**: Strategy elements, moral choices, longer sessions. Escape room-style Bible challenges work well at this level.
+- **Adaptive Difficulty**: Auto-adjust easy/medium/hard based on age setting or performance metrics.
+
+### Scripture Memorization Techniques
+- **Spaced Repetition Schedule**: Review within 12 hours → 2 days → 4 days → 1 week → 2 weeks. Memory loss is steepest in the first 24 hours.
+- **Verse Assembly**: Break verses into fragments → reassemble (repetition without boredom). Reference: Remember Me app combines spaced repetition + gamification.
+- **Motion Linking**: Create physical motions for key words — kinesthetic learners retain better.
+- **Music Linking**: Set verses to melodies for long-term memory transfer. Practice 5 days/week, few minutes each.
+- **Progressive Blanking**: Show full verse → gradually remove words → recall from memory.
 
 ### Retention Mechanics
-- **Spaced Repetition**: Show missed questions again later in the session
+- **Spaced Repetition**: Show missed questions again later in the session, and across sessions
 - **Explanation After Answer**: Always show why an answer is correct (already doing this in Heart Quiz)
 - **Story Integration**: Wrap mechanics in narrative context, not just isolated questions
 - **Multi-Sensory**: Combine visual, audio, and interactive elements
@@ -206,7 +252,23 @@
 - Shared `localStorage` profile across all games
 - Cumulative score / "faith points" shown on main page
 - Unlock badges displayed on a profile card
-- Optional: Weekly challenge mode tied to current unit
+- Visual progress bar: Kids see their growth over time
+- Weekly challenge mode tied to current curriculum unit
+
+### Multiplayer & Cooperative Elements
+- **Research basis**: Multiplayer educational games boost "social and motivational inclusion of at-risk students"
+- **Cooperative games**: Shared goals develop teamwork, communication, and problem-solving simultaneously
+- **GitHub Pages constraint**: WebSocket real-time multiplayer is not feasible with static hosting
+- **Viable alternatives**:
+  - Same-device turn-based co-op (pass and play)
+  - Firebase/Supabase async leaderboard (class rankings)
+  - Class-wide goal progress bar (collective achievement)
+
+### Benchmarks: Existing Best Practices
+- **Bible App for Kids (YouVersion/OneHope)**: 41 interactive stories, activities, awards, stars, diamonds. Sweet spot ages 3-8. Gold standard for touch-based Bible exploration.
+- **Superbook Kids Bible**: 68 free episodes + 20+ games. XP/level-up system. Trivia, word, and action game variety.
+- **Remember Me**: Spaced repetition + games + visual learning for scripture retention.
+- **Bible Memory App**: #1 scripture memorization system, 2M+ users. Points/levels/badges with dopamine-driven motivation.
 
 ---
 
@@ -281,13 +343,33 @@ sunday-school-games/
 - [LittleJS](https://github.com/KilledByAPixel/LittleJS)
 - [Excalibur.js](https://excaliburjs.com/)
 
-### Research
+### Research — Frameworks
 - [Best JS/HTML5 Game Engines 2025 — LogRocket](https://blog.logrocket.com/best-javascript-html5-game-engines-2025/)
 - [JS Game Engines 2025 — GameFromScratch](https://gamefromscratch.com/javascript-typescript-game-engines-in-2025/)
 - [Phaser vs PixiJS Comparison](https://generalistprogrammer.com/comparisons/phaser-vs-pixijs)
+- [JS Game Rendering Benchmark](https://github.com/Shirajuki/js-game-rendering-benchmark)
+- [Tuesday.js — Lightweight VN Engine](https://github.com/kirilllive/tuesday-js)
+
+### Research — Educational Design
 - [Serious Educational Games Framework — PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC10963373/)
 - [Gamification in Education — SpringerOpen](https://slejournal.springeropen.com/articles/10.1186/s40561-019-0085-2)
-- [JS Game Rendering Benchmark](https://github.com/Shirajuki/js-game-rendering-benchmark)
+- [Gamification in Church Education — ChurchTechNews](https://churchtechnews.us/gamification-in-church-education-engaging-the-next-generation/)
+- [Game-ifying Your Teaching Time — RaiseUp Faith](https://www.raiseupfaith.com/articles/gamifying-your-teaching-time)
+- [Collectible Card Games as Learning Tools — ScienceDirect](https://www.sciencedirect.com/science/article/pii/S1877042812018666)
+- [Spaced Repetition for Bible Review — BibleMemoryGoal](https://www.biblememorygoal.com/memory-methods/bible-review-spaced-repetition/)
+
+### Research — Game Genre References
+- [Escape Room Templates — Genially](https://genially.com/templates/games/escape-room/)
+- [HTML5 Rhythm Games — itch.io](https://itch.io/games/html5/tag-rhythm)
+- [Bemuse — Open Source Rhythm Game](https://bemuse.ninja/)
+- [HTML5 Card Games — itch.io](https://itch.io/games/html5/tag-card-game)
+- [Chrome Music Lab](https://musiclab.chromeexperiments.com/)
+
+### Research — Bible Apps for Kids
+- [Bible App for Kids — YouVersion](https://www.bible.com/kids)
+- [Superbook Kids Bible App](https://apps.apple.com/us/app/superbook-kids-bible/id606378030)
+- [Remember Me — Bible Memory](https://www.remem.me/)
+- [Bible Memory App](https://biblememory.com/)
 
 ---
 
