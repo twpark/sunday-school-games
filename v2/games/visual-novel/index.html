@@ -303,7 +303,7 @@
         ]
       },
 
-      // SCENE 2B — The Faithful Son (Good Ending Path)
+      // SCENE 2B — The Faithful Son
       'scene-2b': {
         id: 'scene-2b',
         emoji: '\uD83C\uDF3E',
@@ -316,9 +316,46 @@
             ref: '1 Peter 1:16 (KJV)'
           }
         ],
-        teaching: 'Holiness sometimes means saying no to temptation before it even starts. You chose the narrow path! Not everyone who is faithful gets the spotlight \u2014 but God sees your heart.',
+        teaching: 'Holiness sometimes means saying no to temptation before it even starts. You chose the narrow path!',
+        autoAdvance: 'scene-2b2',
+        autoAdvancePoints: 15
+      },
+
+      // SCENE 2B2 — The Trial at Home
+      'scene-2b2': {
+        id: 'scene-2b2',
+        emoji: '\uD83D\uDCA8',
+        bgClass: 'scene-road',
+        speaker: 'Narrator',
+        dialogue: 'Months pass. Your brother has left with his inheritance, and some neighbors whisper that you are foolish for staying. "Why work so hard when you could be enjoying life?" they say. Even your heart sometimes wonders...',
+        verses: [
+          {
+            text: '"And let us not be weary in well doing: for in due season we shall reap, if we faint not."',
+            ref: 'Galatians 6:9 (KJV)'
+          }
+        ],
+        choices: [
+          { text: 'Stand firm \u2014 faithfulness is its own reward', target: 'scene-2b3', points: 20 },
+          { text: 'Maybe the neighbors are right... ask for your share too', target: 'scene-2a', points: 0 }
+        ]
+      },
+
+      // SCENE 2B3 — The Faithful Rewarded
+      'scene-2b3': {
+        id: 'scene-2b3',
+        emoji: '\uD83C\uDF1F',
+        bgClass: 'scene-faithful',
+        speaker: 'Narrator',
+        dialogue: 'You stayed the course. Your father puts his hand on your shoulder and says, "Son, thou art ever with me, and all that I have is thine." His eyes are full of love. You chose holiness \u2014 and holiness chose you back.',
+        verses: [
+          {
+            text: '"Let us lay aside every weight, and the sin which doth so easily beset us, and let us run with patience the race that is set before us."',
+            ref: 'Hebrews 12:1 (KJV)'
+          }
+        ],
+        teaching: 'The faithful path is not always exciting, but God honors those who persevere. Holiness is a daily choice \u2014 and every day you choose God, He is with you.',
         autoAdvance: 'ending-faithful',
-        autoAdvancePoints: 30
+        autoAdvancePoints: 15
       },
 
       // SCENE 3A — The Famine

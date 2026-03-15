@@ -257,24 +257,29 @@
     let isDragging = false;
 
     // ===== Grid Generation =====
+    const MIN_WORDS = 6;
+    const MAX_RETRIES = 10;
+
     function generateGrid() {
-      // Initialize empty grid
-      grid = Array.from({ length: GRID_SIZE }, () => Array(GRID_SIZE).fill(''));
-      placedWords = [];
+      for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+        grid = Array.from({ length: GRID_SIZE }, () => Array(GRID_SIZE).fill(''));
+        placedWords = [];
 
-      // Shuffle words and try to place each one
-      const shuffled = SSG.shuffle([...WORDS]);
+        const shuffled = SSG.shuffle([...WORDS]);
 
-      for (const wordData of shuffled) {
-        const placed = placeWord(wordData.word);
-        if (placed) {
-          placedWords.push({
-            word: wordData.word,
-            cells: placed,
-            found: false,
-            data: wordData
-          });
+        for (const wordData of shuffled) {
+          const placed = placeWord(wordData.word);
+          if (placed) {
+            placedWords.push({
+              word: wordData.word,
+              cells: placed,
+              found: false,
+              data: wordData
+            });
+          }
         }
+
+        if (placedWords.length >= MIN_WORDS) break;
       }
 
       // Fill remaining empty cells with random letters
