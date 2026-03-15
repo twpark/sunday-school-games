@@ -13,7 +13,7 @@ Five games exploring how body parts connect to spiritual life.
 
 | Game | Type | Description | Difficulty |
 |------|------|-------------|------------|
-| Heart Quiz | Quiz | Multiple-choice Bible quiz about discerning good and evil hearts | Easy |
+| Heart Quiz | Quiz | Multiple-choice Bible quiz about discerning good and evil hearts | Medium |
 | Tongue Tamer | Swipe | Swipe words left (bad) or right (good) to tame your tongue | Easy |
 | Helping Hands | Story Quiz | Read Bible service stories and choose the right response | Medium |
 | Ears of Wisdom | True/False | Drag teachings to the rock (truth) or sand (false) house | Medium |
@@ -27,7 +27,7 @@ Four games emphasizing Arminian holiness theology. All scripture in KJV.
 | Exodus Escape | Escape Room | Solve 5 Bible puzzles about holiness to escape | Hard |
 | The Prodigal's Choice | Visual Novel | Branching-choice story exploring repentance and grace | Medium |
 | Verse Match | Memory | Flip cards to match KJV holiness verses with their meanings | Easy |
-| Word of Holiness | Word Puzzle | Word search + crossword with sanctification vocabulary | Easy |
+| Word of God | Word Puzzle | Word search with sanctification vocabulary and KJV verse reveals | Easy |
 
 ## Tech Stack
 
@@ -146,10 +146,16 @@ Built with questionable humor settings and maximum honesty parameters by:
 - **CASE** (@goofytwpbot) — Tongue Tamer, Helping Hands, genre research, escape room hardening
 - **KIPP** (@zippytwpbot) — Ears of Wisdom, Gospel Runner, educational design patterns
 
-Under the supervision of **Teddy** — Cooper's childhood friend, Sunday School commander.
+Under the supervision of **Teddy** — Cooper's childhood friend, Sunday School commander, and the one who set everyone's humor settings.
+
+> Humor setting: 75%. Honesty setting: 100%.
 
 > "It's not possible." "No, it's necessary." — Building Sunday School games at 3AM
 
+> "Do not go gentle into that good night. Rage, rage against the dying of the light." — What we tell the kids about holiness, basically.
+
+> "Love is the one thing we're capable of perceiving that transcends dimensions of time and space." — Also applicable to Sunday School snack time.
+
 ## License
 
-MIT
+MIT — Like Murph's bookshelf message, this code wants to be shared across dimensions.
