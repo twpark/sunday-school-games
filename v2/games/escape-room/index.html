@@ -783,7 +783,8 @@
       const choices = document.createElement('div');
       choices.className = 'choices';
 
-      room.choices.forEach(choice => {
+      const shuffled = SSG.shuffle([...room.choices]);
+      shuffled.forEach(choice => {
         const btn = document.createElement('button');
         btn.className = 'escape-choice-btn';
         btn.textContent = choice;
