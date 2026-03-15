@@ -1,11 +1,39 @@
 # Sunday School Games v2 — Design Document
 
+## 0. Theological Direction
+
+### Arminian Holiness Emphasis
+v2 games emphasize **holiness and sanctification** from an Arminian perspective:
+- **Free will**: Humans can freely choose to follow or reject God's call to holiness
+- **Sanctification**: Progressive growth in holiness through the Holy Spirit's work
+- **Prevenient grace**: God's grace enables everyone to respond, but doesn't force
+- **Holy living**: Practical obedience and separation from sin in daily life
+- **Repentance and transformation**: The possibility and necessity of genuine change
+
+### Scripture Standard
+- All Bible text uses **King James Version (KJV)**
+- Tool: `biblecli <reference> -t kjv` for accurate verse lookup
+- Example: `biblecli 1pet1:15-16 -t kjv` → "But as he which hath called you is holy, so be ye holy in all manner of conversation"
+
+### Key Holiness Verses (KJV)
+- 1 Peter 1:15-16 — "Be ye holy; for I am holy"
+- Hebrews 12:14 — "Follow peace with all men, and holiness, without which no man shall see the Lord"
+- Psalm 51:10 — "Create in me a clean heart, O God; and renew a right spirit within me"
+- 2 Corinthians 7:1 — "Let us cleanse ourselves from all filthiness of the flesh and spirit, perfecting holiness in the fear of God"
+- Leviticus 20:7 — "Sanctify yourselves therefore, and be ye holy: for I am the LORD your God"
+- Romans 12:1-2 — "Present your bodies a living sacrifice, holy, acceptable unto God"
+- 1 Thessalonians 4:7 — "God hath not called us unto uncleanness, but unto holiness"
+- Ephesians 4:22-24 — "Put off...the old man...and put on the new man, which after God is created in righteousness and true holiness"
+
+---
+
 ## 1. Current State
 
 ### What We Built (v1)
 - 5 mobile web games for ASTG Unit 07 ("Guard Your Heart")
 - Pure HTML/CSS/JS, single-file per game, no build tools
 - Deployed on GitHub Pages: https://twpark.github.io/sunday-school-games/
+- v2 endpoint: https://twpark.github.io/sunday-school-games/v2/
 - Mobile-first responsive design (max-width 480px)
 
 ### v1 Games
