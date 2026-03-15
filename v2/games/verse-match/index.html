@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Verse Match — Sunday School Games</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    /* ===== Verse Match — Game-Specific Styles ===== */
+
+    .score-bar .stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .score-bar .stat .label {
+      font-size: 0.7rem;
+      color: #95a5a6;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .score-bar .stat .value {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    /* Card text sizing for verse content */
+    .memory-card .card-back {
+      font-size: 0.65rem;
+      line-height: 1.35;
+      padding: 5px;
+      word-break: break-word;
+      overflow: hidden;
+    }
+
+    .memory-card .card-back.is-ref {
+      font-family: 'Jua', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    /* Locked state for matched cards */
+    .memory-card.matched {
+      pointer-events: none;
+    }
+
+    .memory-card.matched .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .memory-card.matched .card-back {
+      border-color: var(--correct-color);
+      background: #e8f8f0;
+    }
+
+    /* Wrong-guess shake animation */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-6px); }
+      40% { transform: translateX(6px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+
+    .memory-card.wrong {
+      animation: shake 0.4s ease-in-out;
+    }
+
+    .memory-card.wrong .card-back {
+      border-color: var(--wrong-color);
+      background: #fdecea;
+    }
+
+    /* Explanation popup overlay */
+    .match-popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    .match-popup-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .match-popup {
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px 24px;
+      max-width: 340px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      transform: scale(0.85);
+      transition: transform 0.3s;
+    }
+
+    .match-popup-overlay.show .match-popup {
+      transform: scale(1);
+    }
+
+    .match-popup .popup-icon {
+      font-size: 2.5rem;
+      margin-bottom: 8px;
+    }
+
+    .match-popup .popup-ref {
+      font-family: 'Jua', sans-serif;
+      font-size: 1.1rem;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .match-popup .popup-verse {
+      font-size: 0.85rem;
+      font-style: italic;
+      color: #636e72;
+      line-height: 1.5;
+      margin-bottom: 12px;
+      padding: 0 8px;
+    }
+
+    .match-popup .popup-explain {
+      font-size: 0.9rem;
+      color: var(--text-color);
+      line-height: 1.6;
+      padding: 12px 14px;
+      background: #fef9e7;
+      border-radius: 10px;
+      margin-bottom: 16px;
+    }
+
+    .match-popup .popup-btn {
+      padding: 10px 32px;
+      border: none;
+      border-radius: 10px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.95rem;
+      font-family: 'Jua', sans-serif;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .match-popup .popup-btn:active {
+      opacity: 0.8;
+    }
+
+    /* Result screen extras */
+    .result-screen .result-stats {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin: 20px 0;
+    }
+
+    .result-screen .result-stats .stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .result-screen .result-stats .stat .value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .result-screen .result-stats .stat .label {
+      font-size: 0.8rem;
+      color: #95a5a6;
+    }
+
+    .result-screen .badge-earned {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fef9e7;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+
+    .result-screen .badge-earned .badge-icon {
+      font-size: 1.3rem;
+    }
+
+    #game-area, #result-area {
+      display: none;
+    }
+
+    #game-area.active, #result-area.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <div class="game-header">
+      <a href="../../index.html" class="back-btn" aria-label="Back to games list">&#8592;</a>
+      <h2>Verse Match</h2>
+    </div>
+
+    <!-- Game Area -->
+    <div id="game-area" class="active">
+
+      <!-- Score Bar -->
+      <div class="score-bar">
+        <div class="stat">
+          <span class="label">Time</span>
+          <span class="value" id="timer">0:00</span>
+        </div>
+        <div class="stat">
+          <span class="label">Moves</span>
+          <span class="value" id="moves">0</span>
+        </div>
+        <div class="stat">
+          <span class="label">Matches</span>
+          <span class="value" id="matches">0 / 6</span>
+        </div>
+      </div>
+
+      <!-- Card Grid -->
+      <div class="memory-grid size-4x3" id="card-grid">
+        <!-- Cards injected by JS -->
+      </div>
+
+    </div>
+
+    <!-- Result Screen -->
+    <div id="result-area">
+      <div class="result-screen">
+        <div class="emoji">🏆</div>
+        <h2>All Matched!</h2>
+        <p class="result-msg">Great job learning these holiness verses!</p>
+
+        <div class="result-stats">
+          <div class="stat">
+            <span class="value" id="result-time">0:00</span>
+            <span class="label">Time</span>
+          </div>
+          <div class="stat">
+            <span class="value" id="result-moves">0</span>
+            <span class="label">Moves</span>
+          </div>
+          <div class="stat">
+            <span class="value" id="result-score">0</span>
+            <span class="label">Points</span>
+          </div>
+        </div>
+
+        <div class="badge-earned">
+          <span class="badge-icon">📖</span>
+          <span>Verse Master badge earned!</span>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn-primary" id="btn-play-again">Play Again</button>
+          <a href="../../index.html" class="btn-secondary">Back to Games</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Match Explanation Popup -->
+    <div class="match-popup-overlay" id="popup-overlay">
+      <div class="match-popup">
+        <div class="popup-icon" id="popup-icon">✅</div>
+        <div class="popup-ref" id="popup-ref"></div>
+        <div class="popup-verse" id="popup-verse"></div>
+        <div class="popup-explain" id="popup-explain"></div>
+        <button class="popup-btn" id="popup-btn">Continue</button>
+      </div>
+    </div>
+
+    <div class="footer">
+      Sunday School Games v2 — Holiness &amp; Sanctification
+    </div>
+
+  </div>
+
+  <script src="../../js/shared.js"></script>
+  <script>
+  (function() {
+    'use strict';
+
+    /* ===== Verse Data ===== */
+    const VERSE_PAIRS = [
+      {
+        id: 1,
+        ref: '1 Peter 1:16',
+        text: 'Be ye holy; for I am holy.',
+        explain: 'God calls us to be holy \u2014 set apart for Him. Holiness isn\u2019t optional!'
+      },
+      {
+        id: 2,
+        ref: 'Psalm 51:10',
+        text: 'Create in me a clean heart, O God; and renew a right spirit within me.',
+        explain: 'We can ask God to cleanse our hearts. He loves to make us new!'
+      },
+      {
+        id: 3,
+        ref: 'Matthew 5:8',
+        text: 'Blessed are the pure in heart: for they shall see God.',
+        explain: 'A pure heart is the key to seeing God. Guard your heart!'
+      },
+      {
+        id: 4,
+        ref: 'James 4:8',
+        text: 'Draw nigh to God, and he will draw nigh to you.',
+        explain: 'When we choose to come closer to God, He comes closer to us!'
+      },
+      {
+        id: 5,
+        ref: 'Hebrews 12:14',
+        text: 'Follow peace with all men, and holiness, without which no man shall see the Lord.',
+        explain: 'Holiness is essential \u2014 without it, we cannot truly know God.'
+      },
+      {
+        id: 6,
+        ref: '1 John 1:9',
+        text: 'If we confess our sins, he is faithful and just to forgive us our sins.',
+        explain: 'Confession brings cleansing. God is always ready to forgive!'
+      }
+    ];
+
+    /* ===== DOM References ===== */
+    const cardGrid    = document.getElementById('card-grid');
+    const timerEl     = document.getElementById('timer');
+    const movesEl     = document.getElementById('moves');
+    const matchesEl   = document.getElementById('matches');
+    const gameArea    = document.getElementById('game-area');
+    const resultArea  = document.getElementById('result-area');
+    const resultTime  = document.getElementById('result-time');
+    const resultMoves = document.getElementById('result-moves');
+    const resultScore = document.getElementById('result-score');
+    const btnPlayAgain= document.getElementById('btn-play-again');
+    const popupOverlay= document.getElementById('popup-overlay');
+    const popupRef    = document.getElementById('popup-ref');
+    const popupVerse  = document.getElementById('popup-verse');
+    const popupExplain= document.getElementById('popup-explain');
+    const popupBtn    = document.getElementById('popup-btn');
+
+    /* ===== Game State ===== */
+    let cards = [];
+    let flippedCards = [];
+    let matchedPairs = 0;
+    let moves = 0;
+    let timerInterval = null;
+    let seconds = 0;
+    let lockBoard = false;
+
+    /* ===== Initialize Game ===== */
+    function init() {
+      // Reset state
+      cards = [];
+      flippedCards = [];
+      matchedPairs = 0;
+      moves = 0;
+      seconds = 0;
+      lockBoard = false;
+
+      // Stop any existing timer
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = null;
+
+      // Update UI
+      timerEl.textContent = '0:00';
+      movesEl.textContent = '0';
+      matchesEl.textContent = '0 / 6';
+
+      // Show game, hide result
+      gameArea.classList.add('active');
+      resultArea.classList.remove('active');
+
+      // Build card data: each pair creates two cards (one ref, one text)
+      const cardData = [];
+      VERSE_PAIRS.forEach(function(pair) {
+        cardData.push({
+          pairId: pair.id,
+          type: 'ref',
+          content: pair.ref,
+          ref: pair.ref,
+          text: pair.text,
+          explain: pair.explain
+        });
+        cardData.push({
+          pairId: pair.id,
+          type: 'text',
+          content: pair.text,
+          ref: pair.ref,
+          text: pair.text,
+          explain: pair.explain
+        });
+      });
+
+      // Shuffle
+      const shuffled = SSG.shuffle(cardData);
+
+      // Render cards
+      cardGrid.innerHTML = '';
+      shuffled.forEach(function(data, index) {
+        const card = document.createElement('div');
+        card.className = 'memory-card';
+        card.dataset.index = index;
+        card.dataset.pairId = data.pairId;
+        card.dataset.type = data.type;
+
+        var backClass = 'card-back';
+        if (data.type === 'ref') backClass += ' is-ref';
+
+        card.innerHTML =
+          '<div class="card-inner">' +
+            '<div class="card-front">\u271D\uFE0F</div>' +
+            '<div class="' + backClass + '">' + data.content + '</div>' +
+          '</div>';
+
+        card.addEventListener('click', function() {
+          handleCardClick(card, data);
+        });
+
+        cardGrid.appendChild(card);
+        cards.push({ el: card, data: data });
+      });
+    }
+
+    /* ===== Timer ===== */
+    function startTimer() {
+      if (timerInterval) return;
+      timerInterval = setInterval(function() {
+        seconds++;
+        timerEl.textContent = formatTime(seconds);
+      }, 1000);
+    }
+
+    function stopTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }
+
+    function formatTime(s) {
+      var m = Math.floor(s / 60);
+      var sec = s % 60;
+      return m + ':' + (sec < 10 ? '0' : '') + sec;
+    }
+
+    /* ===== Card Click Handler ===== */
+    function handleCardClick(cardEl, cardData) {
+      // Ignore clicks on locked board, already flipped, or matched cards
+      if (lockBoard) return;
+      if (cardEl.classList.contains('flipped')) return;
+      if (cardEl.classList.contains('matched')) return;
+
+      // Start timer on first click
+      startTimer();
+
+      // Play click sound
+      SSG.audio.click();
+
+      // Flip the card
+      cardEl.classList.add('flipped');
+      flippedCards.push({ el: cardEl, data: cardData });
+
+      // When two cards are flipped, check for a match
+      if (flippedCards.length === 2) {
+        moves++;
+        movesEl.textContent = moves;
+        lockBoard = true;
+
+        var first = flippedCards[0];
+        var second = flippedCards[1];
+
+        if (first.data.pairId === second.data.pairId && first.el !== second.el) {
+          // Match found
+          handleMatch(first, second);
+        } else {
+          // No match
+          handleMismatch(first, second);
+        }
+      }
+    }
+
+    /* ===== Match Handler ===== */
+    function handleMatch(first, second) {
+      SSG.audio.correct();
+
+      setTimeout(function() {
+        first.el.classList.add('matched');
+        second.el.classList.add('matched');
+
+        matchedPairs++;
+        matchesEl.textContent = matchedPairs + ' / 6';
+
+        flippedCards = [];
+        lockBoard = false;
+
+        // Show explanation popup
+        showExplanation(first.data);
+      }, 500);
+    }
+
+    /* ===== Mismatch Handler ===== */
+    function handleMismatch(first, second) {
+      SSG.audio.wrong();
+
+      setTimeout(function() {
+        first.el.classList.add('wrong');
+        second.el.classList.add('wrong');
+      }, 500);
+
+      setTimeout(function() {
+        first.el.classList.remove('flipped', 'wrong');
+        second.el.classList.remove('flipped', 'wrong');
+        flippedCards = [];
+        lockBoard = false;
+      }, 1200);
+    }
+
+    /* ===== Explanation Popup ===== */
+    function showExplanation(data) {
+      lockBoard = true;
+      popupRef.textContent = data.ref;
+      popupVerse.textContent = '"' + data.text + '"';
+      popupExplain.textContent = data.explain;
+
+      popupOverlay.classList.add('show');
+
+      // Check if all pairs matched
+      if (matchedPairs === 6) {
+        popupBtn.textContent = 'See Results';
+      } else {
+        popupBtn.textContent = 'Continue';
+      }
+    }
+
+    popupBtn.addEventListener('click', function() {
+      popupOverlay.classList.remove('show');
+      lockBoard = false;
+
+      if (matchedPairs === 6) {
+        endGame();
+      }
+    });
+
+    // Also allow tapping overlay background to dismiss
+    popupOverlay.addEventListener('click', function(e) {
+      if (e.target === popupOverlay) {
+        popupOverlay.classList.remove('show');
+        lockBoard = false;
+
+        if (matchedPairs === 6) {
+          endGame();
+        }
+      }
+    });
+
+    /* ===== End Game ===== */
+    function endGame() {
+      stopTimer();
+
+      // Calculate score: base 600, minus penalty for extra moves, minimum 100
+      // Perfect game = 6 moves (one per pair). Each extra move costs 20 points.
+      var extraMoves = Math.max(0, moves - 6);
+      var score = Math.max(100, 600 - (extraMoves * 20));
+
+      // Show result screen
+      gameArea.classList.remove('active');
+      resultArea.classList.add('active');
+
+      resultTime.textContent = formatTime(seconds);
+      resultMoves.textContent = moves;
+      resultScore.textContent = score;
+
+      // Play success sound
+      SSG.audio.success();
+
+      // Award points and badge
+      SSG.addPoints('verse-match', score);
+      SSG.awardBadge('verse_master');
+    }
+
+    /* ===== Play Again ===== */
+    btnPlayAgain.addEventListener('click', function() {
+      init();
+    });
+
+    /* ===== Start the Game ===== */
+    init();
+
+  })();
+  </script>
+</body>
+</html>
