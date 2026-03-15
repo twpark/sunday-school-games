@@ -88,6 +88,45 @@
       color: #b2bec3;
     }
 
+    .verse-clue.ref-only {
+      font-style: normal;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--escape-color);
+      background: #fff5f2;
+    }
+
+    .verse-clue.ref-only .ref {
+      font-size: 0.75rem;
+      color: #b2bec3;
+      font-weight: 400;
+    }
+
+    .verse-reveal {
+      margin-top: 12px;
+      padding: 14px 16px;
+      background: #fef9e7;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: #636e72;
+      line-height: 1.6;
+      text-align: center;
+      display: none;
+      animation: fadeSlideIn 0.4s ease;
+    }
+
+    .verse-reveal.show { display: block; }
+
+    .verse-reveal .ref {
+      display: block;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 0.75rem;
+      margin-top: 6px;
+      color: #b2bec3;
+    }
+
     /* Question */
     .puzzle-question {
       font-family: 'Jua', sans-serif;
@@ -499,10 +538,10 @@
         <div class="room-title" id="room-title">The Burning Bush</div>
         <div class="room-subtitle" id="room-ref">Exodus 3:5</div>
 
-        <!-- Verse Clue -->
-        <div class="verse-clue" id="verse-clue">
-          <span id="verse-text"></span>
-          <span class="ref" id="verse-ref"></span>
+        <!-- Verse Reference (no text shown initially) -->
+        <div class="verse-clue ref-only" id="verse-clue">
+          <span id="verse-ref-label"></span>
+          <span class="ref">Look up this verse to find the answer!</span>
         </div>
 
         <!-- Puzzle Question -->
@@ -518,6 +557,12 @@
         <div class="hint-box" id="hint-box">
           <span class="hint-label">Hint:</span>
           <span id="hint-text"></span>
+        </div>
+
+        <!-- Verse Reveal (shown after solving) -->
+        <div class="verse-reveal" id="verse-reveal">
+          <span id="verse-text"></span>
+          <span class="ref" id="verse-ref"></span>
         </div>
 
         <!-- Teaching (shown after solving) -->
@@ -592,11 +637,11 @@
         verse: 'And he said, Draw not nigh hither: put off thy shoes from off thy feet, for the place whereon thou standest is holy ground.',
         verseRef: 'Exodus 3:5 (KJV)',
         puzzleType: 'multiple-choice',
-        question: 'What did God tell Moses to remove?',
-        choices: ['His staff', 'His shoes', 'His cloak', 'His hat'],
-        answer: 'His shoes',
+        question: 'Moses met God at the burning bush. What did God command Moses to do before coming closer?',
+        choices: ['Build an altar', 'Take off his shoes', 'Cover his face', 'Kneel down'],
+        answer: 'Take off his shoes',
         teaching: "God's holiness demands reverence. Holy ground requires us to approach with respect.",
-        hint: "What was on Moses' feet?"
+        hint: 'Think about what you wear on your feet...'
       },
       {
         id: 2,
@@ -607,10 +652,10 @@
         verse: 'Create in me a clean heart, O God; and renew a right spirit within me.',
         verseRef: 'Psalm 51:10 (KJV)',
         puzzleType: 'fill-blank',
-        question: 'Create in me a _____ heart, O God',
+        question: 'King David prayed to God after he sinned. What kind of heart did he ask God to create in him?',
         answer: 'clean',
         teaching: 'David asked God for a clean heart after he sinned. We can always ask God to cleanse us!',
-        hint: 'The opposite of dirty'
+        hint: 'David wanted his heart to be pure, without sin — what word describes that?'
       },
       {
         id: 3,
@@ -621,11 +666,11 @@
         verse: 'Enter ye in at the strait gate... narrow is the way, which leadeth unto life, and few there be that find it.',
         verseRef: 'Matthew 7:13-14 (KJV)',
         puzzleType: 'multiple-choice',
-        question: 'According to Jesus, which path leads to life?',
-        choices: ['The wide road', 'The narrow way', 'The easy path', 'Any path'],
+        question: 'Jesus said there are two paths. Most people take the wide, easy road. But which kind of path leads to eternal life?',
+        choices: ['The popular road', 'The narrow way', 'The fastest route', 'Any path you choose'],
         answer: 'The narrow way',
         teaching: "Holiness means choosing the narrow path — God's way, not the world's way.",
-        hint: "Jesus said it's not the wide one..."
+        hint: 'It is the opposite of wide...'
       },
       {
         id: 4,
@@ -636,12 +681,12 @@
         verse: 'The night is far spent, the day is at hand: let us therefore cast off the works of darkness, and let us put on the armour of light.',
         verseRef: 'Romans 13:12 (KJV)',
         puzzleType: 'unscramble',
-        question: 'Unscramble: MUORAR FO TILHG',
+        question: 'Paul said we should put on something to fight darkness. Unscramble:',
         scrambled: 'MUORAR FO TILHG',
         answer: 'armour of light',
         altAnswers: ['armor of light'],
         teaching: 'We must actively put off sin and put on holiness — it is a choice we make every day!',
-        hint: 'Unscramble: protection that shines'
+        hint: 'Two words: a warrior\'s protection + the opposite of darkness'
       },
       {
         id: 5,
@@ -652,10 +697,10 @@
         verse: 'But as he which hath called you is holy, so be ye holy in all manner of conversation; Because it is written, Be ye holy; for I am holy.',
         verseRef: '1 Peter 1:15-16 (KJV)',
         puzzleType: 'type-answer',
-        question: 'Complete: Be ye _____, for I am _____.',
+        question: 'God said "Be ye _____, for I am _____." What one word fills both blanks?',
         answer: 'holy',
         teaching: "God's holiness is the standard. He calls us to reflect His character in everything we do!",
-        hint: 'What is God? And what should we be?'
+        hint: 'This word means set apart, pure, belonging to God'
       }
     ];
 
@@ -740,14 +785,14 @@
 
       document.getElementById('room-title').textContent = room.title;
       document.getElementById('room-ref').textContent = room.ref;
-      document.getElementById('verse-text').textContent = '"' + room.verse + '"';
-      document.getElementById('verse-ref').textContent = '— ' + room.verseRef;
+      document.getElementById('verse-ref-label').textContent = room.verseRef;
       document.getElementById('puzzle-question').textContent = room.question;
 
       // Clear state
       document.getElementById('feedback').textContent = '';
       document.getElementById('feedback').className = 'feedback';
       document.getElementById('hint-box').classList.remove('show');
+      document.getElementById('verse-reveal').classList.remove('show');
       document.getElementById('teaching-box').classList.remove('show');
       document.getElementById('btn-next').classList.remove('show');
 
@@ -985,6 +1030,11 @@
 
       showFeedback('Correct! Room unlocked!', true);
       SSG.audio.correct();
+
+      // Reveal the full verse
+      document.getElementById('verse-text').textContent = '"' + room.verse + '"';
+      document.getElementById('verse-ref').textContent = '— ' + room.verseRef;
+      document.getElementById('verse-reveal').classList.add('show');
 
       // Show teaching
       document.getElementById('teaching-text').textContent = room.teaching;
